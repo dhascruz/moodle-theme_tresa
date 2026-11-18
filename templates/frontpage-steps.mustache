@@ -1,0 +1,46 @@
+{{!
+    @template theme_tresa/frontpage-steps
+    Front page "How it works" - a static 3-step process explainer, each
+    step fading in a little after the last as the section scrolls into
+    view (see lib.php: theme_tresa_get_frontpage_steps_context()).
+
+    Context: steps.title, steps.steps [{number, icon, title, text, delay}].
+
+    Note the dot-notation throughout, on both the interpolation tags and
+    the section tags around the loop below: this partial is included
+    directly into theme_tresa/frontpage as a plain partial reference, not
+    wrapped in a section of its own, so it shares that template's WHOLE
+    top-level context rather than getting one scoped to just this section's
+    own data - same reason theme_tresa/course-grid already references
+    "coursegrid.title"/"coursegrid.courses" instead of bare "title"/
+    "courses". Using the bare, undotted section name here previously meant
+    it resolved to the wrapper hash itself (title + the list, together) - a
+    single hash, not a list, so Mustache pushed it as one context rather
+    than looping - instead of the list of 3 step items one level inside it.
+
+    IMPORTANT: never write the two-character closing-brace sequence inside
+    this comment block, not even as a quoted example describing this exact
+    rule - Mustache's own comment parser isn't brace-depth aware, so it
+    ends the comment at the very first occurrence of that sequence,
+    wherever it appears, illustrative or not. Getting this wrong twice
+    already (once with a literal example tag, once with that same sequence
+    quoted while describing the rule) silently leaked the rest of this
+    comment's own text as visible page content, without even raising an
+    error the second time - worth being paranoid about re-reading this
+    whole block for that sequence before ever touching it again.
+}}
+<section class="tresa-steps tresa-section tresa-section--alt">
+    <div class="tresa-steps__header">
+        <h2 class="tresa-steps__title">{{steps.title}}</h2>
+    </div>
+    <div class="tresa-steps__grid">
+        {{#steps.steps}}
+        <div class="tresa-step tresa-reveal" style="transition-delay: {{delay}}ms;">
+            <span class="tresa-step__number">{{number}}</span>
+            <span class="tresa-step__icon"><i class="fa {{icon}}" aria-hidden="true"></i></span>
+            <h3 class="tresa-step__title">{{title}}</h3>
+            <p class="tresa-step__text">{{text}}</p>
+        </div>
+        {{/steps.steps}}
+    </div>
+</section>

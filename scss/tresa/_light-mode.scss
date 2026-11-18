@@ -1,0 +1,230 @@
+// Tresa - light-mode overrides for components that were only ever given
+// dark styling: the sidebar (_sidebar.scss), the footer (_footer.scss/
+// _dashboard.scss's dark-page override), and the decorative dashboard/main
+// widgets (_dashboard.scss). Those were all built before the light/dark
+// toggle existed (see navbar.mustache/scripts.mustache/head.mustache), so
+// toggling to light mode left them either stuck dark (sidebar/footer, whose
+// only rules are unconditional) or with no styling at all (the widgets,
+// whose only rules live inside _dashboard.scss's dark-only scope) - this
+// file is what actually makes "light mode" complete, layered on top of
+// both without touching either.
+//
+// Kept as flat overrides (not a CSS-custom-property refactor of every
+// existing dark rule) - smaller, isolated diff, zero regression risk to the
+// already-verified dark mode.
+html.tresa-force-light {
+    // Sidebar: white instead of navy, active/hover states as a light tint
+    // of the same orange accent rather than the dark active-bg.
+    .tresa-sidebar {
+        background: #fff;
+        border-right-color: $tresa-border-color;
+    }
+
+    .tresa-sidebar__link {
+        color: $tresa-dark;
+
+        &:hover, &:focus {
+            background: $tresa-light;
+            color: $tresa-dark;
+        }
+
+        &.active {
+            background: rgba($tresa-sidebar-accent, .12);
+            color: $tresa-dark;
+
+            .tresa-sidebar__icon {
+                color: darken($tresa-sidebar-accent, 10%);
+            }
+        }
+    }
+
+    .tresa-sidebar__icon {
+        color: $tresa-gray-600;
+    }
+
+    .tresa-sidebar__group-label {
+        color: $tresa-gray-600;
+    }
+
+    .tresa-sidebar__profile {
+        color: $tresa-dark;
+        border-top-color: $tresa-border-color;
+
+        &:hover, &:focus {
+            background: $tresa-light;
+            color: $tresa-dark;
+        }
+    }
+
+    .tresa-sidebar__profile-name {
+        color: $tresa-dark;
+    }
+
+    .tresa-sidebar__profile-role {
+        color: $tresa-gray-600;
+    }
+
+    .tresa-sidebar-toggle {
+        background: #fff;
+        color: $tresa-dark;
+        border-color: $tresa-border-color;
+    }
+
+    // Footer: light instead of the theme's usual near-black, matching the
+    // rest of the light page instead of reading as a leftover dark band.
+    .tresa-footer {
+        background: $tresa-light;
+        color: $tresa-dark;
+
+        &__inner {
+            border-bottom-color: $tresa-border-color;
+        }
+    }
+
+    .tresa-footer a {
+        color: $tresa-primary;
+    }
+
+    .tresa-footer__contact-item {
+        color: $tresa-gray-600;
+
+        i {
+            color: $tresa-primary;
+        }
+    }
+
+    .tresa-footer-scripts {
+        color: $tresa-gray-600;
+        border-top-color: $tresa-border-color;
+    }
+
+    // Dashboard/main widgets (Focus Study Sprint, Weekly Study Goal,
+    // Cognitive Co-Pilot, Study Engagement Graph, hero card, stat tiles,
+    // Academic Pulse/Course Breakdown/Study Sprint Hours/Learning Intensity)
+    // - see templates/dashboard-widgets.mustache and main-widgets.mustache.
+    // Structure/layout lives in _widgets.scss (unscoped); this is the
+    // colour half, mirroring _dashboard.scss's dark version property for
+    // property.
+    .tresa-widget {
+        background: #fff;
+        border-color: $tresa-border-color;
+    }
+
+    .tresa-widget__header {
+        background: $tresa-light;
+        border-bottom-color: $tresa-border-color;
+    }
+
+    .tresa-widget__title {
+        color: $tresa-gray-600;
+    }
+
+    .tresa-widget__timer,
+    .tresa-widget__gauge-value,
+    .tresa-widget__donut-value {
+        color: $tresa-dark;
+    }
+
+    .tresa-widget__hint,
+    .tresa-widget__gauge-label,
+    .tresa-widget__donut-label,
+    .tresa-widget__slider-label,
+    .tresa-widget__bar-label {
+        color: $tresa-gray-600;
+    }
+
+    .tresa-widget__slider {
+        accent-color: $tresa-secondary;
+    }
+
+    .tresa-widget__slider-value {
+        color: $tresa-dark;
+    }
+
+    .tresa-widget__gauge,
+    .tresa-widget__gauge--accent {
+        background:
+            radial-gradient(closest-side, #fff 72%, transparent 73% 100%),
+            conic-gradient($tresa-secondary calc(var(--tresa-gauge-percent) * 1%), $tresa-border-color 0);
+    }
+
+    .tresa-widget__copilot-input {
+        background: $tresa-light;
+        border-color: $tresa-border-color;
+        color: $tresa-dark;
+
+        &::placeholder { color: $tresa-gray-600; }
+
+        &:focus {
+            border-color: $tresa-secondary;
+            outline: none;
+        }
+    }
+
+    .tresa-widget__bar {
+        background: $tresa-secondary;
+    }
+
+    .tresa-widget__donut-hole {
+        background: #fff;
+    }
+
+    .tresa-widget__legend {
+        color: $tresa-dark;
+
+        em {
+            color: $tresa-gray-600;
+        }
+    }
+
+    .tresa-widget__toggle {
+        background: $tresa-light;
+        border-color: $tresa-border-color;
+    }
+
+    .tresa-widget__toggle-btn {
+        color: $tresa-gray-600;
+
+        &.active {
+            background: $tresa-secondary;
+            color: #fff;
+        }
+    }
+
+    .tresa-widget__hint--footer strong,
+    .tresa-widget__simulate .tresa-widget__hint strong {
+        color: $tresa-dark;
+    }
+
+    .tresa-hero-card {
+        background: linear-gradient(135deg, $tresa-light 0%, #fff 100%);
+        border-color: $tresa-border-color;
+    }
+
+    .tresa-hero-card__eyebrow {
+        color: $tresa-gray-600;
+    }
+
+    .tresa-hero-card__body {
+        color: $tresa-dark;
+    }
+
+    .tresa-stat-tile {
+        background: #fff;
+        border-color: $tresa-border-color;
+    }
+
+    .tresa-stat-tile__icon {
+        background: rgba($tresa-secondary, .15);
+        color: darken($tresa-secondary, 10%);
+    }
+
+    .tresa-stat-tile__label,
+    .tresa-stat-tile__meta {
+        color: $tresa-gray-600;
+    }
+
+    .tresa-stat-tile__value {
+        color: $tresa-dark;
+    }
+}

@@ -1,0 +1,251 @@
+// Tresa - navbar, nav, dropdowns, breadcrumb, pagination.
+
+.tresa-navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: $tresa-navbar-height;
+    display: flex;
+    align-items: center;
+    background: #fff;
+    border-bottom: 1px solid $tresa-border-color;
+    z-index: 1030;
+
+    .container-fluid {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 100%;
+    }
+
+    &__logo {
+        height: 32px;
+        margin-right: .5rem;
+    }
+
+    .navbar-brand {
+        font-weight: 700;
+        font-size: 1.1rem;
+        color: $tresa-dark;
+        text-decoration: none;
+
+        &:hover { text-decoration: none; }
+    }
+
+    &__collapse {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        flex: 1;
+        justify-content: flex-end;
+    }
+
+    &__end {
+        display: flex;
+        align-items: center;
+        gap: .5rem;
+    }
+
+    .navbar-toggler {
+        display: none;
+        border: 1px solid $tresa-border-color;
+        border-radius: $tresa-radius-sm;
+        background: none;
+        padding: .35rem .6rem;
+    }
+
+    @media (max-width: 767.98px) {
+        &__collapse {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: #fff;
+            flex-direction: column;
+            align-items: stretch;
+            border-bottom: 1px solid $tresa-border-color;
+            padding: .5rem 1rem 1rem;
+
+            &.show { display: flex; }
+        }
+        .navbar-toggler { display: inline-block; }
+    }
+}
+
+// Generic nav / more-menu (core/moremenu renders <ul class="nav ...">).
+.nav {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-item {
+    list-style: none;
+}
+
+.nav-link {
+    display: block;
+    padding: .5rem .85rem;
+    color: $tresa-dark;
+    text-decoration: none;
+    border-radius: $tresa-radius-sm;
+
+    &:hover, &:focus {
+        color: $tresa-primary;
+        text-decoration: none;
+    }
+
+    &.active {
+        color: $tresa-primary;
+        font-weight: 600;
+    }
+}
+
+.nav-tabs {
+    border-bottom: 1px solid $tresa-border-color;
+
+    .nav-link {
+        border: 1px solid transparent;
+        border-top-left-radius: $tresa-radius-sm;
+        border-top-right-radius: $tresa-radius-sm;
+        margin-bottom: -1px;
+
+        &.active {
+            border-color: $tresa-border-color $tresa-border-color #fff;
+            background: #fff;
+        }
+    }
+}
+
+.tab-content {
+    padding-top: 1rem;
+}
+
+.tab-pane {
+    display: none;
+
+    &.active { display: block; }
+}
+
+// Dropdown menu (used by core/user_menu and similar).
+.dropdown {
+    position: relative;
+}
+
+.dropdown-toggle {
+    cursor: pointer;
+}
+
+.dropdown-menu {
+    position: absolute;
+    right: 0;
+    top: 100%;
+    z-index: 1040;
+    display: none;
+    min-width: 12rem;
+    padding: .5rem 0;
+    margin-top: .25rem;
+    background: #fff;
+    border: 1px solid $tresa-border-color;
+    border-radius: $tresa-radius-sm;
+    box-shadow: $tresa-shadow-hover;
+
+    &.show { display: block; }
+}
+
+.dropdown-item {
+    display: block;
+    width: 100%;
+    padding: .4rem 1rem;
+    clear: both;
+    text-align: inherit;
+    background: none;
+    border: 0;
+    color: $tresa-dark;
+    text-decoration: none;
+
+    &:hover, &:focus {
+        background: $tresa-light;
+        color: $tresa-dark;
+        text-decoration: none;
+    }
+}
+
+.dropdown-divider {
+    height: 0;
+    margin: .5rem 0;
+    border-top: 1px solid $tresa-border-color;
+}
+
+// Breadcrumb.
+.breadcrumb {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    padding: .5rem 0;
+    margin: 0 0 1rem;
+    font-size: .9rem;
+}
+
+.breadcrumb-item {
+    display: flex;
+    align-items: center;
+
+    + .breadcrumb-item::before {
+        content: "/";
+        padding: 0 .5rem;
+        color: $tresa-gray-600;
+    }
+
+    a { color: $tresa-primary; }
+}
+
+// Pagination.
+.pagination {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    gap: .25rem;
+}
+
+.page-link {
+    display: block;
+    padding: .4rem .75rem;
+    border: 1px solid $tresa-border-color;
+    border-radius: $tresa-radius-sm;
+    color: $tresa-primary;
+    text-decoration: none;
+
+    &:hover { background: $tresa-light; text-decoration: none; }
+}
+
+.page-item.active .page-link {
+    background: $tresa-primary;
+    border-color: $tresa-primary;
+    color: #fff;
+}
+
+// Navbar light/dark toggle (see navbar.mustache/scripts.mustache, next to
+// the edit-mode switch).
+.tresa-theme-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    margin-right: .5rem;
+    padding: 0;
+    border: 1px solid $tresa-border-color;
+    border-radius: 50%;
+    background: transparent;
+    color: $tresa-dark;
+    cursor: pointer;
+
+    &:hover, &:focus {
+        background: $tresa-light;
+    }
+}

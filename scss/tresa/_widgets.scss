@@ -1,0 +1,393 @@
+// Tresa - decorative dashboard/main widgets: STRUCTURE ONLY (dimensions,
+// flex/grid layout, spacing, border-radius, typography sizing). No colours
+// here - those are theme-mode-dependent and live in _dashboard.scss (dark)
+// and _light-mode.scss (light).
+//
+// This file is unscoped (applies regardless of light/dark mode) because the
+// markup itself only ever renders on the handful of pages that already
+// carry it (see lib.php: theme_tresa_get_dashboard_widgets_context /
+// theme_tresa_get_main_widgets_context, gated in layout/general.php) - there
+// is nowhere else these classes could accidentally apply.
+//
+// Originally all of this lived only inside _dashboard.scss's dark-only
+// scope, which meant toggling to light mode didn't just show the wrong
+// colours, it destroyed the layout entirely (gauges losing width/height/
+// border-radius and collapsing into a bar of inline text, stat tiles losing
+// their flex row and icon circle, etc.) - every property below is exactly
+// what was missing.
+.tresa-widget {
+    border-radius: $tresa-radius;
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+    border-width: 1px;
+    border-style: solid;
+}
+
+.tresa-widget__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: .75rem;
+    padding: .85rem 1.25rem;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+}
+
+.tresa-widget__title {
+    font-size: .7rem;
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+}
+
+.tresa-widget__body {
+    padding: 1.25rem;
+}
+
+.tresa-widget__timer {
+    font-family: $tresa-font-family-display;
+    font-size: 2.25rem;
+    font-weight: 700;
+}
+
+.tresa-widget__hint {
+    font-size: .8rem;
+    margin-bottom: 1rem;
+}
+
+.tresa-widget__focus-btn {
+    width: 100%;
+}
+
+.tresa-widget__goal {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+}
+
+.tresa-widget__goal-sliders {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.tresa-widget__slider-row {
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+    margin-bottom: .9rem;
+
+    &:last-child { margin-bottom: 0; }
+}
+
+.tresa-widget__slider-label {
+    flex: 0 0 5.5rem;
+    font-size: .75rem;
+    text-transform: uppercase;
+    letter-spacing: .03em;
+}
+
+.tresa-widget__slider {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.tresa-widget__slider-value {
+    flex: 0 0 auto;
+    font-size: .78rem;
+    font-weight: 600;
+    min-width: 3rem;
+    text-align: right;
+}
+
+// Circular "index" gauge - a conic-gradient ring with the percentage
+// painted in the accent colour, rest of the ring muted. The gradient itself
+// (colour) is theme-mode-dependent - see _dashboard.scss/_light-mode.scss.
+.tresa-widget__gauge {
+    flex: 0 0 auto;
+    width: 4.5rem;
+    height: 4.5rem;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.tresa-widget__gauge-value {
+    font-size: .95rem;
+    font-weight: 700;
+}
+
+.tresa-widget__gauge-label {
+    font-size: .6rem;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+}
+
+.tresa-widget__copilot {
+    display: flex;
+    gap: .5rem;
+}
+
+.tresa-widget__copilot-input {
+    flex: 1 1 auto;
+    min-width: 0;
+    padding: .55rem .75rem;
+    border-radius: $tresa-radius-sm;
+    border-width: 1px;
+    border-style: solid;
+}
+
+.tresa-widget__copilot-send {
+    flex: 0 0 auto;
+    width: 2.5rem;
+    padding: 0;
+}
+
+// Bar chart - each bar's height is set inline (0-100%) against a fixed
+// track height on the column.
+.tresa-widget__chart {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: .5rem;
+    height: 8rem;
+}
+
+.tresa-widget__bar-col {
+    flex: 1 1 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    height: 100%;
+}
+
+.tresa-widget__bar {
+    width: 100%;
+    max-width: 1.5rem;
+    border-radius: $tresa-radius-sm $tresa-radius-sm 0 0;
+    min-height: 4px;
+}
+
+.tresa-widget__bar-label {
+    margin-top: .5rem;
+    font-size: .7rem;
+}
+
+// Main-column widgets: hero summary card, stat tiles, two-up gauge/chart
+// rows.
+.tresa-hero-card {
+    border-radius: $tresa-radius-lg;
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+    border-width: 1px;
+    border-style: solid;
+}
+
+.tresa-hero-card__eyebrow {
+    display: block;
+    font-size: .7rem;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    margin-bottom: .75rem;
+}
+
+.tresa-hero-card__body {
+    max-width: 34rem;
+    margin-bottom: 1.25rem;
+}
+
+.tresa-stat-tiles {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+    margin-bottom: 1.5rem;
+
+    @media (max-width: 767.98px) {
+        grid-template-columns: 1fr;
+    }
+}
+
+.tresa-stat-tile {
+    display: flex;
+    align-items: center;
+    gap: .9rem;
+    border-radius: $tresa-radius;
+    padding: 1.1rem 1.25rem;
+    border-width: 1px;
+    border-style: solid;
+}
+
+.tresa-stat-tile__icon {
+    flex: 0 0 auto;
+    width: 2.75rem;
+    height: 2.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 1.1rem;
+}
+
+.tresa-stat-tile__body {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.tresa-stat-tile__label {
+    font-size: .68rem;
+    font-weight: 700;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+}
+
+.tresa-stat-tile__value {
+    font-size: 1.3rem;
+    font-weight: 700;
+}
+
+.tresa-stat-tile__meta {
+    font-size: .72rem;
+}
+
+.tresa-widget-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+    gap: 1.5rem;
+
+    @media (max-width: 767.98px) {
+        grid-template-columns: 1fr;
+    }
+
+    .tresa-widget { margin-bottom: 0; }
+}
+
+.tresa-widget__body--center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.tresa-widget__gauge--lg {
+    width: 7rem;
+    height: 7rem;
+}
+
+.tresa-widget__gauge--lg .tresa-widget__gauge-value {
+    font-size: 1.4rem;
+}
+
+// Donut ("Course breakdown"): same conic-gradient + radial-mask ring trick
+// as .tresa-widget__gauge, but fed a precomputed multi-colour gradient (see
+// lib.php: theme_tresa_build_donut_segments) instead of a single accent
+// percentage - the gradient/hole colour is theme-mode-dependent.
+.tresa-widget__donut {
+    position: relative;
+    width: 8rem;
+    height: 8rem;
+    border-radius: 50%;
+    margin-bottom: 1rem;
+}
+
+.tresa-widget__donut-hole {
+    position: absolute;
+    inset: 18%;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.tresa-widget__donut-value {
+    font-size: 1.3rem;
+    font-weight: 700;
+}
+
+.tresa-widget__donut-label {
+    font-size: .62rem;
+    text-transform: uppercase;
+    letter-spacing: .03em;
+}
+
+.tresa-widget__legend {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    text-align: left;
+    font-size: .8rem;
+
+    li {
+        display: flex;
+        align-items: center;
+        gap: .5rem;
+        padding: .3rem 0;
+    }
+
+    em {
+        margin-left: auto;
+        font-style: normal;
+    }
+}
+
+.tresa-widget__legend-dot {
+    width: .6rem;
+    height: .6rem;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+// Weekly/Monthly segmented toggle (Study Sprint Hours header). Purely
+// cosmetic - both periods show the same demo bars (see lib.php).
+.tresa-widget__toggle {
+    display: flex;
+    border-radius: $tresa-radius-sm;
+    padding: .15rem;
+    border-width: 1px;
+    border-style: solid;
+}
+
+.tresa-widget__toggle-btn {
+    border: 0;
+    background: transparent;
+    font-size: .72rem;
+    font-weight: 600;
+    padding: .3rem .7rem;
+    border-radius: $tresa-radius-sm;
+    cursor: pointer;
+}
+
+.tresa-widget__hint--footer {
+    margin: 1rem 0 0;
+    text-align: center;
+}
+
+.tresa-widget__simulate {
+    width: 100%;
+    max-width: 22rem;
+    margin-top: 1.25rem;
+    text-align: center;
+
+    .tresa-widget__slider-label {
+        display: block;
+        font-size: .72rem;
+        font-weight: 700;
+        letter-spacing: .04em;
+        text-transform: uppercase;
+        margin-bottom: .6rem;
+    }
+
+    .tresa-widget__slider {
+        width: 100%;
+        margin-bottom: .6rem;
+    }
+
+    .tresa-widget__hint {
+        margin-bottom: 0;
+    }
+}

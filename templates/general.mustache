@@ -1,0 +1,67 @@
+{{!
+    @template theme_tresa/general
+    Navbar + optional side-pre block column + main content. Used for most
+    of the site: course pages, dashboard, admin, reports, etc.
+
+    Context adds: hasblocks, sidepreblocks, headercontent.
+}}
+{{> theme_tresa/head }}
+<body {{{ bodyattributes }}}>
+{{{ output.standard_top_of_body_html }}}
+{{> theme_tresa/navbar }}
+{{#sidebar}}
+    <button type="button" class="tresa-sidebar-toggle d-lg-none" data-tresa-toggle="tresa-sidebar" aria-label="{{#str}} togglesidebar, theme_tresa {{/str}}">
+        <i class="fa fa-bars" aria-hidden="true"></i>
+    </button>
+    {{> theme_tresa/sidebar }}
+{{/sidebar}}
+<div class="container-fluid tresa-main">
+    <div class="row">
+        <div class="{{#hasrightcolumn}}col-lg-9{{/hasrightcolumn}}{{^hasrightcolumn}}col-12{{/hasrightcolumn}}">
+            {{{ output.full_header }}}
+            {{#secondarymoremenu}}
+                <div class="secondary-navigation d-print-none">
+                    {{> core/moremenu}}
+                </div>
+            {{/secondarymoremenu}}
+            {{#overflow}}
+                <div class="container-fluid tertiary-navigation">
+                    <div class="navitem">
+                        {{> core/tertiary_navigation_selector}}
+                    </div>
+                </div>
+            {{/overflow}}
+            <main id="tresa-maincontent" tabindex="-1">
+                {{#hasregionmainsettingsmenu}}
+                    <div id="region-main-settings-menu" class="d-print-none">
+                        <div>{{{ regionmainsettingsmenu }}}</div>
+                    </div>
+                {{/hasregionmainsettingsmenu}}
+                {{{ output.course_content_header }}}
+                {{#headercontent}}
+                    {{> core/activity_header }}
+                {{/headercontent}}
+                {{#mainwidgets}}
+                    {{> theme_tresa/main-widgets }}
+                {{/mainwidgets}}
+                {{{ output.main_content }}}
+                {{{ output.activity_navigation }}}
+                {{{ output.course_content_footer }}}
+            </main>
+        </div>
+        {{#hasrightcolumn}}
+            <aside class="col-lg-3 tresa-blocks d-print-none" aria-label="{{#str}} blocks, core {{/str}}">
+                {{#dashboardwidgets}}
+                    {{> theme_tresa/dashboard-widgets }}
+                {{/dashboardwidgets}}
+                {{#hasblocks}}
+                    {{{ sidepreblocks }}}
+                {{/hasblocks}}
+            </aside>
+        {{/hasrightcolumn}}
+    </div>
+</div>
+{{> theme_tresa/footer }}
+{{> theme_tresa/footer-scripts }}
+</body>
+</html>

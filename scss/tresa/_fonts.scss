@@ -1,0 +1,47 @@
+// Tresa - self-hosted webfonts.
+//
+// Inter (body/UI) and Montserrat (headings/display) - matching the fonts
+// used on the marketing site this Moodle install pairs with
+// (mstationfrontend). Both are shipped here as variable-font woff2 files
+// (theme/tresa/fonts/), each covering every weight used on the site in one
+// file, so a single @font-face per family/style is enough - no separate
+// per-weight file needed, the browser picks the right instance from the
+// "wght" axis.
+//
+// Self-hosted (not linked from Google Fonts' CDN) so the page doesn't
+// depend on a third-party request at render time. Served via theme/font.php
+// (the "[[font:theme|...]]" token, resolved by theme_config::font_url() at
+// SCSS-compile time - same mechanism core's own fontawesome.scss uses for
+// "[[font:core|...]]"), which gives proper revision-based cache-busting for
+// free, rather than a hand-built absolute URL.
+@font-face {
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+    src: url("[[font:theme|Inter.woff2]]") format("woff2");
+}
+
+@font-face {
+    font-family: "Montserrat";
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+    src: url("[[font:theme|Montserrat.woff2]]") format("woff2");
+}
+
+// Outfit - the institute login/brand typeface (SIL Open Font Licence), latin subset,
+// variable weight 100-900, self-hosted like Inter and Montserrat above.
+@font-face {
+    font-family: "Outfit";
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+    src: url("[[font:theme|Outfit.woff2]]") format("woff2");
+}
+
+// Poppins - the landing page typeface (SIL Open Font Licence), latin subset, self-hosted.
+@font-face { font-family: "Poppins"; font-style: normal; font-weight: 400; font-display: swap; src: url("[[font:theme|Poppins-400.woff2]]") format("woff2"); }
+@font-face { font-family: "Poppins"; font-style: normal; font-weight: 500; font-display: swap; src: url("[[font:theme|Poppins-500.woff2]]") format("woff2"); }
+@font-face { font-family: "Poppins"; font-style: normal; font-weight: 600; font-display: swap; src: url("[[font:theme|Poppins-600.woff2]]") format("woff2"); }
+@font-face { font-family: "Poppins"; font-style: normal; font-weight: 700; font-display: swap; src: url("[[font:theme|Poppins-700.woff2]]") format("woff2"); }

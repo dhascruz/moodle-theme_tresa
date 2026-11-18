@@ -1,0 +1,409 @@
+{{!
+    @template theme_tresa/scripts
+
+    Tiny vanilla-JS behaviour for the hand-authored design system: tab
+    switching, dropdown menus (user menu / language menu / more-menu
+    overflow) and the mobile navbar toggle. Tresa doesn't ship Bootstrap's
+    JS bundle (only its CSS class names are reimplemented - see README), so
+    without this, anything using data-bs-toggle="tab"/"dropdown" just sits
+    there inert. Included on every layout, right before </body>.
+}}
+<script>
+(function() {
+    function closeAllDropdowns(except) {
+        document.querySelectorAll('.dropdown-menu.show').forEach(function(menu) {
+            if (menu !== except) {
+                menu.classList.remove('show');
+            }
+        });
+    }
+
+    document.addEventListener('click', function(e) {
+        // Tab switching - but ONLY for genuine in-page tab panels (e.g. the
+        // theme settings tabs), where href="#some-id" matches a .tab-pane
+        // that actually exists on this page. Moodle's own secondary
+        // navigation (e.g. the General/Users/Courses/Plugins tabs on Site
+        // administration) also renders with data-bs-toggle="tab" for its
+        // tablist styling/ARIA role, but those hrefs are real page URLs -
+        // if we intercept those too we break navigation entirely, since
+        // there's no matching in-page panel to swap to.
+        var tabToggle = e.target.closest('[data-bs-toggle="tab"]');
+        if (tabToggle) {
+            var href = tabToggle.getAttribute('href') || '';
+            var isInPagePanel = href.charAt(0) === '#' && href.length > 1;
+            var target = isInPagePanel ? document.querySelector(href) : null;
+
+            if (target && target.classList.contains('tab-pane')) {
+                e.preventDefault();
+
+                // Deactivate sibling tab links. These live wherever the
+                // clicked link's own nav list is (may or may not be near
+                // the panels themselves - e.g. Moodle's admin search page
+                // renders the tabs up in the header and the panels further
+                // down inside main content, in a completely different part
+                // of the DOM).
+                var navList = tabToggle.closest('.nav-tabs') || tabToggle.closest('.nav');
+                if (navList) {
+                    navList.querySelectorAll('.nav-link').forEach(function(link) {
+                        link.classList.remove('active');
+                        link.setAttribute('aria-selected', 'false');
+                    });
+                }
+                tabToggle.classList.add('active');
+                tabToggle.setAttribute('aria-selected', 'true');
+
+                // Deactivate sibling panels relative to the TARGET panel's
+                // own parent (the real .tab-content), not relative to the
+                // tab link - that's what actually makes this work when the
+                // nav and the content aren't DOM neighbours.
+                var tabContent = target.parentElement;
+                if (tabContent) {
+                    Array.prototype.forEach.call(tabContent.children, function(pane) {
+                        if (pane.classList.contains('tab-pane')) {
+                            pane.classList.remove('active');
+                        }
+                    });
+                }
+                target.classList.add('active');
+                return;
+            }
+            // Not an in-page panel - let the browser navigate normally
+            // (don't preventDefault, don't return early: fall through so
+            // outside-click dropdown handling below still runs correctly).
+        }
+
+        // Dropdown toggles (user menu, language menu, more-menu overflow).
+        var dropToggle = e.target.closest('[data-bs-toggle="dropdown"]');
+        if (dropToggle) {
+            e.preventDefault();
+            e.stopPropagation();
+            var menu = dropToggle.parentElement ? dropToggle.parentElement.querySelector('.dropdown-menu') : null;
+            if (!menu) {
+                return;
+            }
+            var isOpen = menu.classList.contains('show');
+            closeAllDropdowns();
+            if (!isOpen) {
+                menu.classList.add('show');
+            }
+            return;
+        }
+
+        // Mobile navbar collapse toggle.
+        var navToggle = e.target.closest('[data-tresa-toggle]');
+        if (navToggle) {
+            var targetId = navToggle.getAttribute('data-tresa-toggle');
+            var collapseTarget = targetId ? document.getElementById(targetId) : null;
+            if (collapseTarget) {
+                collapseTarget.classList.toggle('show');
+            }
+            return;
+        }
+
+        // Clicking anywhere else closes open dropdowns.
+        if (!e.target.closest('.dropdown-menu')) {
+            closeAllDropdowns();
+        }
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            closeAllDropdowns();
+        }
+    });
+})();
+
+(function() {
+    // Hero banner: crossfades through .tresa-hero__slide elements, via the
+    // prev/next buttons and dots always, plus an automatic timer when
+    // enabled. No-ops on any page without a multi-image hero (most pages).
+    var hero = document.querySelector('.tresa-hero[data-tresa-hero-autoscroll]');
+    if (!hero) {
+        return;
+    }
+
+    var slides = hero.querySelectorAll('.tresa-hero__slide');
+    var dots = hero.querySelectorAll('.tresa-hero__dot');
+    if (slides.length < 2) {
+        return;
+    }
+
+    var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var autoscrollEnabled = hero.getAttribute('data-tresa-hero-autoscroll') === '1' && !reduceMotion;
+    var interval = parseInt(hero.getAttribute('data-tresa-hero-interval'), 10) || 5000;
+    var current = 0;
+    var timer = null;
+
+    function goTo(index) {
+        var next = ((index % slides.length) + slides.length) % slides.length;
+        if (next === current) {
+            return;
+        }
+        slides[current].classList.remove('is-active');
+        slides[next].classList.add('is-active');
+        if (dots.length) {
+            dots[current].classList.remove('is-active');
+            dots[next].classList.add('is-active');
+        }
+        current = next;
+    }
+
+    function start() {
+        if (autoscrollEnabled && !timer) {
+            timer = window.setInterval(function() {
+                goTo(current + 1);
+            }, interval);
+        }
+    }
+
+    function stop() {
+        if (timer) {
+            window.clearInterval(timer);
+            timer = null;
+        }
+    }
+
+    // Pause while the tab isn't visible, instead of silently racking up
+    // missed advances in the background.
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            stop();
+        } else {
+            start();
+        }
+    });
+
+    // Manual navigation always works, regardless of the auto-scroll
+    // setting/reduced-motion - it's just the automatic timer that respects
+    // those. A manual interaction resets the timer so the banner doesn't
+    // immediately auto-advance again right after the visitor picked a slide.
+    var prevBtn = hero.querySelector('[data-tresa-hero-prev]');
+    var nextBtn = hero.querySelector('[data-tresa-hero-next]');
+    if (prevBtn) {
+        prevBtn.addEventListener('click', function() {
+            stop();
+            goTo(current - 1);
+            start();
+        });
+    }
+    if (nextBtn) {
+        nextBtn.addEventListener('click', function() {
+            stop();
+            goTo(current + 1);
+            start();
+        });
+    }
+    dots.forEach(function(dot, index) {
+        dot.addEventListener('click', function() {
+            stop();
+            goTo(index);
+            start();
+        });
+    });
+
+    start();
+})();
+
+(function() {
+    // Dashboard "Focus Study Sprint" widget: a real client-side countdown
+    // (nothing persisted/synced - see lib.php:
+    // theme_tresa_get_dashboard_widgets_context). No-ops on any page without
+    // the widget (most pages).
+    var widget = document.querySelector('[data-region="tresa-focus-timer"]');
+    if (!widget) {
+        return;
+    }
+
+    var display = widget.querySelector('[data-region="tresa-focus-display"]');
+    var hint = widget.querySelector('[data-region="tresa-focus-hint"]');
+    var toggle = widget.querySelector('[data-region="tresa-focus-toggle"]');
+    var totalSeconds = 25 * 60;
+    var remaining = totalSeconds;
+    var timer = null;
+
+    function render() {
+        var mins = Math.floor(remaining / 60);
+        var secs = remaining % 60;
+        display.textContent = (mins < 10 ? '0' : '') + mins + ':' + (secs < 10 ? '0' : '') + secs;
+    }
+
+    function stop(hintText) {
+        if (timer) {
+            window.clearInterval(timer);
+            timer = null;
+        }
+        toggle.textContent = remaining === totalSeconds ? 'Start Focus' : 'Resume Focus';
+        hint.textContent = hintText;
+    }
+
+    toggle.addEventListener('click', function() {
+        if (timer) {
+            stop('Paused');
+            return;
+        }
+        if (remaining <= 0) {
+            remaining = totalSeconds;
+        }
+        hint.textContent = 'Focus session running';
+        toggle.textContent = 'Pause';
+        timer = window.setInterval(function() {
+            remaining -= 1;
+            render();
+            if (remaining <= 0) {
+                stop('Sprint complete!');
+            }
+        }, 1000);
+    });
+})();
+
+(function() {
+    // Dashboard "Weekly Study Goal" sliders: live-update their own value
+    // label as the user drags (not persisted anywhere - decorative widget,
+    // see lib.php).
+    document.querySelectorAll('[data-region="tresa-slider-value"]').forEach(function(slider) {
+        var valueEl = slider.parentElement.querySelector('.tresa-widget__slider-value');
+        if (!valueEl) {
+            return;
+        }
+        var suffix = valueEl.textContent.trim().replace(/^[0-9]+/, '');
+        slider.addEventListener('input', function() {
+            valueEl.textContent = slider.value + suffix;
+        });
+    });
+
+    // "Cognitive Co-Pilot" prompt box: no backend to send this to, so just
+    // clear the field instead of leaving a broken/no-op submit button.
+    var copilotForm = document.querySelector('[data-region="tresa-copilot-form"]');
+    if (copilotForm) {
+        copilotForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            copilotForm.reset();
+        });
+    }
+
+    // "Study Sprint Hours" Weekly/Monthly toggle: cosmetic only, both
+    // periods show the same demo bars (see lib.php).
+    document.querySelectorAll('[data-region="tresa-period-toggle"]').forEach(function(toggle) {
+        toggle.querySelectorAll('.tresa-widget__toggle-btn').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                toggle.querySelectorAll('.tresa-widget__toggle-btn').forEach(function(b) {
+                    b.classList.remove('active');
+                });
+                btn.classList.add('active');
+            });
+        });
+    });
+})();
+
+(function() {
+    // Light/dark toggle (navbar button, next to the edit-mode switch). The
+    // "tresa-force-light" class itself is already applied to <html> before
+    // this script runs, by the inline snippet in head.mustache (reading the
+    // same localStorage key) - this just wires up the click and keeps the
+    // icon in sync.
+    var toggle = document.querySelector('[data-region="tresa-theme-toggle"]');
+    if (!toggle) {
+        return;
+    }
+    var icon = toggle.querySelector('[data-region="tresa-theme-icon"]');
+
+    function syncIcon() {
+        var isLight = document.documentElement.classList.contains('tresa-force-light');
+        icon.classList.toggle('fa-moon', !isLight);
+        icon.classList.toggle('fa-sun', isLight);
+    }
+    syncIcon();
+
+    toggle.addEventListener('click', function() {
+        var nowLight = document.documentElement.classList.toggle('tresa-force-light');
+        localStorage.setItem('tresa-theme', nowLight ? 'light' : 'dark');
+        syncIcon();
+    });
+})();
+
+(function() {
+    // Scroll-reveal (front page stats bar/course cards - see _misc.scss's
+    // ".tresa-reveal") + count-up (front page stats bar's real site
+    // numbers - see lib.php: theme_tresa_get_frontpage_stats_context()).
+    // No-ops on any page without these (most pages).
+    var revealels = document.querySelectorAll('.tresa-reveal');
+    if (!revealels.length || !('IntersectionObserver' in window)) {
+        return;
+    }
+
+    var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function animateCount(el) {
+        var target = parseInt(el.getAttribute('data-tresa-count-to'), 10);
+        if (!target || reduceMotion) {
+            el.textContent = target || el.textContent;
+            return;
+        }
+        var duration = 1200;
+        var start = null;
+        function step(timestamp) {
+            if (start === null) {
+                start = timestamp;
+            }
+            var progress = Math.min((timestamp - start) / duration, 1);
+            // Ease-out: fast at first, settles into the final number instead
+            // of stopping abruptly.
+            var eased = 1 - Math.pow(1 - progress, 3);
+            el.textContent = Math.floor(eased * target).toLocaleString();
+            if (progress < 1) {
+                window.requestAnimationFrame(step);
+            } else {
+                el.textContent = target.toLocaleString();
+            }
+        }
+        window.requestAnimationFrame(step);
+    }
+
+    var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+            if (!entry.isIntersecting) {
+                return;
+            }
+            entry.target.classList.add('tresa-reveal--visible');
+            var counter = entry.target.querySelector('[data-tresa-count-to]');
+            if (counter && !counter.dataset.tresaCounted) {
+                counter.dataset.tresaCounted = '1';
+                animateCount(counter);
+            }
+            observer.unobserve(entry.target);
+        });
+    }, {threshold: 0.2});
+
+    revealels.forEach(function(el) {
+        observer.observe(el);
+    });
+})();
+
+(function() {
+    // Front page rotating highlight banner (theme_tresa/frontpage-ticker) -
+    // crossfades between a few short taglines. No-op on any page without
+    // it (every page except the front page).
+    var ticker = document.querySelector('[data-tresa-ticker]');
+    if (!ticker) {
+        return;
+    }
+
+    var slides = ticker.querySelectorAll('.tresa-ticker__slide');
+    if (slides.length < 2) {
+        return;
+    }
+
+    var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduceMotion) {
+        return;
+    }
+
+    var current = 0;
+    window.setInterval(function() {
+        var next = (current + 1) % slides.length;
+        slides[current].classList.remove('is-active');
+        slides[next].classList.add('is-active');
+        current = next;
+    }, 4000);
+})();
+</script>

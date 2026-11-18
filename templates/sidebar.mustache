@@ -1,0 +1,44 @@
+{{!
+    @template theme_tresa/sidebar
+    Left navigation drawer: primary links group, a "User workspace" group,
+    and a compact profile card pinned to the bottom. Rendered by the
+    "general" layout only (see general.mustache/general.php).
+
+    Context: primarylinks, workspacelinks, sidebarworkspacelabel, profileurl,
+    userpictureimage, fullname, roletext.
+}}
+<aside class="tresa-sidebar" id="tresa-sidebar" data-region="tresa-sidebar">
+    <nav class="tresa-sidebar__nav" aria-label="{{#str}} sitemenubar, admin {{/str}}">
+        <ul class="tresa-sidebar__list">
+            {{#primarylinks}}
+            <li class="tresa-sidebar__item">
+                <a href="{{{url}}}" class="tresa-sidebar__link{{#active}} active{{/active}}">
+                    <i class="fa {{icon}} tresa-sidebar__icon" aria-hidden="true"></i>
+                    <span>{{text}}</span>
+                </a>
+            </li>
+            {{/primarylinks}}
+        </ul>
+
+        <div class="tresa-sidebar__group-label">{{sidebarworkspacelabel}}</div>
+        <ul class="tresa-sidebar__list">
+            {{#workspacelinks}}
+            <li class="tresa-sidebar__item">
+                <a href="{{{url}}}" class="tresa-sidebar__link{{#active}} active{{/active}}">
+                    <i class="fa {{icon}} tresa-sidebar__icon" aria-hidden="true"></i>
+                    <span>{{text}}</span>
+                </a>
+            </li>
+            {{/workspacelinks}}
+        </ul>
+    </nav>
+
+    <a href="{{{profileurl}}}" class="tresa-sidebar__profile">
+        {{{userpictureimage}}}
+        <span class="tresa-sidebar__profile-info">
+            <span class="tresa-sidebar__profile-name">{{fullname}}</span>
+            <span class="tresa-sidebar__profile-role">{{roletext}}</span>
+        </span>
+    </a>
+</aside>
+<div class="tresa-sidebar-backdrop" data-tresa-toggle="tresa-sidebar"></div>

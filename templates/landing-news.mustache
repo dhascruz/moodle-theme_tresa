@@ -1,0 +1,18 @@
+{{!
+    @template theme_tresa/landing-news
+    Public announcements (from the DBA/PhD journey plugin), shown only when there are some.
+}}
+{{#news.hasitems}}
+<section class="tresa-news tresa-section">
+    <h2 class="tresa-news__title">{{ news.title }}</h2>
+    <div class="tresa-news__grid">
+        {{#news.items}}
+        <article class="tresa-news__item">
+            <span class="tresa-news__date">{{ date }}</span>
+            <h3>{{ title }}</h3>
+            <div class="tresa-news__body">{{{ body }}}</div>
+        </article>
+        {{/news.items}}
+    </div>
+</section>
+{{/news.hasitems}}

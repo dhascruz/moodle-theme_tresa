@@ -1,0 +1,182 @@
+// Tresa - landing page footer
+.tresa-footer {
+    background: $tresa-dark;
+    color: rgba(255, 255, 255, .85);
+    padding: $tresa-section-spacing-sm 1.5rem 0;
+    margin-top: $tresa-section-spacing;
+
+    &__inner {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr 1.2fr;
+        gap: 2rem;
+        padding-bottom: 2.5rem;
+        border-bottom: 1px solid rgba(255, 255, 255, .12);
+    }
+
+    &__about {
+        h3 {
+            color: #fff;
+            font-size: 1.15rem;
+            margin-bottom: .75rem;
+        }
+
+        p {
+            font-size: .9rem;
+            color: rgba(255, 255, 255, .7);
+        }
+    }
+
+    &__social {
+        display: flex;
+        list-style: none;
+        gap: .6rem;
+        margin: 1rem 0 0;
+        padding: 0;
+
+        a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, .08);
+            color: rgba(255, 255, 255, .8);
+            transition: $tresa-transition;
+
+            &:hover, &:focus {
+                background: $tresa-primary;
+                color: #fff;
+            }
+        }
+    }
+
+    &__col {
+        h4 {
+            color: #fff;
+            font-size: .95rem;
+            text-transform: uppercase;
+            letter-spacing: .04em;
+            margin-bottom: 1rem;
+        }
+
+        ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: .6rem;
+        }
+
+        a {
+            color: rgba(255, 255, 255, .7);
+            text-decoration: none;
+            font-size: .9rem;
+            transition: $tresa-transition;
+
+            &:hover,
+            &:focus {
+                color: #fff;
+                text-decoration: underline;
+            }
+        }
+    }
+
+    &__bottom {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 1.25rem 0;
+        font-size: .85rem;
+        color: rgba(255, 255, 255, .55);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: .5rem;
+    }
+
+    &__backtotop {
+        color: rgba(255, 255, 255, .55);
+        text-decoration: none;
+
+        &:hover,
+        &:focus {
+            color: #fff;
+        }
+    }
+
+    // Contact column (address/phone/email) - same header style as the link
+    // columns above, each row an icon + text so it reads as a short
+    // "contact card" rather than another plain link list.
+    &__contact {
+        h4 {
+            color: #fff;
+            font-size: .95rem;
+            text-transform: uppercase;
+            letter-spacing: .04em;
+            margin-bottom: 1rem;
+        }
+    }
+
+    &__contact-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    &__contact-item {
+        display: flex;
+        align-items: flex-start;
+        gap: .6rem;
+        margin-bottom: .75rem;
+        font-size: .88rem;
+        color: rgba(255, 255, 255, .7);
+
+        i {
+            flex: 0 0 auto;
+            width: 1.1rem;
+            text-align: center;
+            margin-top: .2rem;
+            color: $tresa-secondary;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+
+            &:hover,
+            &:focus {
+                color: #fff;
+                text-decoration: underline;
+            }
+        }
+    }
+}
+
+@media (max-width: 767.98px) {
+    .tresa-footer__inner {
+        grid-template-columns: 1fr;
+    }
+}
+
+// Core footer hooks (login info, plugin footer content e.g. performance info).
+// The mobile-app promo (tool_mobile) and data-retention summary link
+// (tool_dataprivacy) are intentionally hidden site-wide - Tresa's own footer
+// already covers support/navigation, and neither adds value for this site.
+.tresa-footer-scripts {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: .75rem 1.5rem;
+    font-size: .8rem;
+    color: $tresa-gray-600;
+    text-align: center;
+
+    .mobilelink,
+    .tool_dataprivacy {
+        display: none;
+    }
+}

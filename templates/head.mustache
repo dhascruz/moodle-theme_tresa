@@ -1,0 +1,21 @@
+{{!
+    @template theme_tresa/head
+    Page <head>. Standalone - only depends on base core_renderer methods.
+}}
+{{{ output.doctype }}}
+<html {{{ output.htmlattributes }}}>
+<head>
+    <script>
+    // Light/dark toggle (see navbar.mustache + scripts.mustache): applied to
+    // <html>, before <body> exists and before CSS finishes loading, so a
+    // saved "light" preference takes effect on first paint instead of
+    // flashing dark-then-light.
+    if (localStorage.getItem('tresa-theme') === 'light') {
+        document.documentElement.classList.add('tresa-force-light');
+    }
+    </script>
+    <title>{{{ output.page_title }}}</title>
+    <link rel="shortcut icon" href="{{{ output.favicon }}}" />
+    {{{ output.standard_head_html }}}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>

@@ -1,0 +1,275 @@
+// Tresa - Moodle's legacy YUI "dialogue" popup chrome (M.core.dialogue),
+// used by the file picker / file manager ("Edit file", "Create folder",
+// confirm-delete, etc.), plus the newer core/modal. Positioning (fixed,
+// centered) is set inline by Moodle's own JS - what's missing here is the
+// visual skin: without it the dialogue renders as plain unstyled boxes
+// stacked inline in the page instead of a floating card over a dimmed
+// backdrop.
+
+// Dimmed backdrop behind the dialogue.
+.moodle-dialogue-base .moodle-dialogue-lightbox {
+    background-color: rgba(0, 0, 0, .5);
+    z-index: 1090;
+}
+
+.moodle-dialogue-base .hidden,
+.moodle-dialogue-base .moodle-dialogue-hidden {
+    display: none;
+}
+
+.moodle-dialogue-base .moodle-dialogue-fullscreen {
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    position: fixed;
+}
+
+.moodle-dialogue-base .moodle-dialogue-fullscreen .moodle-dialogue-content {
+    overflow: auto;
+}
+
+// The floating card itself.
+.moodle-dialogue-base .moodle-dialogue-wrap {
+    background-color: #fff;
+    border: 1px solid $tresa-border-color;
+    border-radius: $tresa-radius-md;
+    box-shadow: $tresa-shadow-lg;
+    overflow: hidden;
+    z-index: 1091;
+}
+
+.moodle-dialogue-base .moodle-dialogue {
+    z-index: 1091;
+}
+
+.moodle-dialogue-base .moodle-dialogue-wrap .moodle-dialogue-hd {
+    display: flex;
+    align-items: center;
+    padding: .85rem 1rem;
+    background: #fff;
+    border-bottom: 1px solid $tresa-border-color;
+
+    h5 {
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin: 0;
+        color: $tresa-dark;
+    }
+}
+
+.moodle-dialogue-base .moodle-dialogue-wrap .moodle-dialogue-hd .yui3-widget-buttons {
+    margin-left: auto;
+}
+
+.moodle-dialogue-base .closebutton {
+    padding: .4rem;
+    margin-left: auto;
+    border: 0;
+    background: transparent;
+    color: $tresa-gray-600;
+    border-radius: $tresa-radius-sm;
+    cursor: pointer;
+    line-height: 1;
+
+    &:hover {
+        background: $tresa-light;
+        color: $tresa-dark;
+    }
+}
+
+.moodle-dialogue-base .moodle-dialogue .moodle-dialogue-bd {
+    padding: 1rem;
+    max-height: 70vh;
+    overflow: auto;
+
+    body {
+        background-color: #fff;
+    }
+}
+
+.moodle-dialogue-base .moodle-dialogue .moodle-dialogue-content .moodle-dialogue-ft {
+    padding: .75rem 1rem;
+    border-top: 1px solid $tresa-border-color;
+
+    &:empty {
+        display: none;
+        padding: 0;
+        border-top: 0;
+    }
+}
+
+.moodle-dialogue-confirm .confirmation-message {
+    margin: .5rem 0;
+}
+
+// ---------------------------------------------------------------------
+// File picker / file manager content (rendered inside the dialogue body
+// above). Only the layout essentials - not the legacy YUI tree-view
+// icon sprites, which need image assets Tresa doesn't ship.
+// ---------------------------------------------------------------------
+
+.file-picker,
+.filemanager {
+    .fp-toolbar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: .5rem;
+        margin-bottom: .75rem;
+
+        div {
+            display: inline-flex;
+        }
+
+        &.empty { display: none; }
+    }
+
+    .fp-pathbar {
+        margin-bottom: .5rem;
+        font-size: .85rem;
+        color: $tresa-gray-600;
+
+        &.empty { display: none; }
+    }
+
+    .fp-navbar {
+        border: 1px solid $tresa-border-color;
+        border-bottom: 0;
+        border-top-left-radius: $tresa-radius-sm;
+        border-top-right-radius: $tresa-radius-sm;
+        padding: .5rem;
+    }
+
+    .fp-content {
+        border: 1px solid $tresa-border-color;
+        border-radius: $tresa-radius-sm;
+        padding: .75rem;
+        background: #fff;
+    }
+}
+
+.filemanager-container,
+.filepicker-filelist {
+    min-height: 140px;
+    border: 1px solid $tresa-border-color;
+    border-radius: $tresa-radius-sm;
+    padding: .5rem;
+}
+
+.fp-iconview .fp-file {
+    float: left;
+    text-align: center;
+    position: relative;
+    margin: .5rem .5rem 2rem;
+}
+
+.fp-iconview .fp-thumbnail {
+    min-width: 90px;
+    min-height: 90px;
+    line-height: 90px;
+    text-align: center;
+    border: 1px solid $tresa-border-color;
+    border-radius: $tresa-radius-sm;
+    display: block;
+}
+
+.fp-iconview .fp-thumbnail img {
+    max-width: 100%;
+    max-height: 100%;
+    vertical-align: middle;
+}
+
+.fp-iconview .fp-filename-field {
+    margin-top: .25rem;
+    font-size: .8rem;
+    word-wrap: break-word;
+}
+
+// The file-properties "select" form (Name / Author / Choose licence /
+// Path fields plus a thumbnail) - what's shown in the "Edit file" dialogue.
+.fp-select {
+    .fp-thumbnail {
+        float: left;
+        min-width: 90px;
+        min-height: 90px;
+        margin: 0 1rem 1rem 0;
+        border: 1px solid $tresa-border-color;
+        border-radius: $tresa-radius-sm;
+        text-align: center;
+        line-height: 90px;
+
+        img {
+            max-width: 100%;
+            max-height: 100%;
+            vertical-align: middle;
+        }
+    }
+
+    table {
+        width: 100%;
+
+        td {
+            padding: .4rem 0;
+            vertical-align: middle;
+        }
+
+        td.mdl-left,
+        td.mdl-right {
+            text-align: left;
+        }
+    }
+
+    input[type="text"],
+    select {
+        width: 100%;
+        max-width: 320px;
+    }
+
+    .fp-select-buttons {
+        display: flex;
+        gap: .5rem;
+        margin-top: .75rem;
+    }
+}
+
+.fp-restrictions {
+    font-size: .8rem;
+    color: $tresa-gray-600;
+    text-align: right;
+    margin-top: .5rem;
+}
+
+// Toolbar buttons (Download / Delete / Set main file / Zip / Unzip etc.) -
+// these are plain <a>/<button> elements without a .btn class in some
+// versions, so give them a consistent button look here rather than relying
+// on .btn.
+.fp-toolbar a,
+.fp-btn-add,
+.fp-btn-download,
+.fp-btn-delete,
+.fp-btn-setmain,
+.fp-btn-zip,
+.fp-btn-unzip,
+.fp-btn-mkdir {
+    display: inline-flex;
+    align-items: center;
+    padding: .4rem .8rem;
+    font-size: .85rem;
+    font-weight: 500;
+    color: $tresa-dark;
+    background: $tresa-light;
+    border: 1px solid $tresa-border-color;
+    border-radius: $tresa-radius-sm;
+    text-decoration: none;
+    cursor: pointer;
+
+    &:hover {
+        background: darken($tresa-light, 4%);
+        text-decoration: none;
+    }
+
+    &.disabled {
+        opacity: .5;
+        pointer-events: none;
+    }
+}

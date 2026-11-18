@@ -1,0 +1,109 @@
+// Tresa - buttons (hand-authored, Bootstrap-class-compatible).
+.btn {
+    display: inline-block;
+    font-weight: 500;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    user-select: none;
+    background-color: transparent;
+    border: 1px solid transparent;
+    padding: .5rem 1rem;
+    font-size: $tresa-font-size;
+    border-radius: $tresa-radius-sm;
+    transition: $tresa-transition;
+    line-height: 1.5;
+
+    &:hover { text-decoration: none; }
+    &:focus-visible {
+        outline: 2px solid $tresa-primary;
+        outline-offset: 1px;
+    }
+    &:disabled,
+    &.disabled {
+        opacity: .55;
+        pointer-events: none;
+    }
+}
+
+.btn-sm { padding: .25rem .6rem; font-size: .875rem; border-radius: $tresa-radius-sm; }
+.btn-lg { padding: .75rem 1.5rem; font-size: 1.15rem; border-radius: $tresa-radius; }
+
+@mixin tresa-button-variant($bg, $color: #fff) {
+    background-color: $bg;
+    border-color: $bg;
+    color: $color;
+
+    &:hover, &:focus {
+        background-color: darken($bg, 8%);
+        border-color: darken($bg, 10%);
+        color: $color;
+        box-shadow: $tresa-shadow;
+        transform: translateY(-1px);
+    }
+
+    &:active {
+        transform: translateY(0);
+        box-shadow: none;
+    }
+}
+
+@mixin tresa-button-outline($color) {
+    background-color: transparent;
+    border-color: $color;
+    color: $color;
+
+    &:hover, &:focus {
+        background-color: $color;
+        color: #fff;
+    }
+}
+
+.btn-primary { @include tresa-button-variant($tresa-primary); }
+
+// Bootstrap-standard neutral secondary: core Moodle reaches for
+// .btn-secondary constantly for "not the main action" buttons (filepicker's
+// "Choose a file...", single_button() prompts, etc.) across every admin and
+// settings page in the site - hundreds of buttons theme_tresa never
+// custom-templates. Using $tresa-secondary (the vivid marketing orange) here
+// made all of those read as loud competing CTAs instead of quiet utility
+// actions (see the login-card overrides below that already had to fight
+// this). $tresa-secondary itself is untouched for actual marketing accents
+// (hero/course-grid gradients).
+.btn-secondary { @include tresa-button-variant($tresa-gray-600, #fff); }
+.btn-danger { @include tresa-button-variant($tresa-danger); }
+.btn-success { @include tresa-button-variant($tresa-success); }
+.btn-dark { @include tresa-button-variant($tresa-dark); }
+.btn-light { @include tresa-button-variant($tresa-light, $tresa-dark); }
+
+.btn-outline-primary { @include tresa-button-outline($tresa-primary); }
+.btn-outline-secondary { @include tresa-button-outline($tresa-gray-600); }
+.btn-outline-danger { @include tresa-button-outline($tresa-danger); }
+.btn-outline-dark { @include tresa-button-outline($tresa-dark); }
+
+.btn-link {
+    background: none;
+    border: none;
+    color: $tresa-primary;
+    text-decoration: none;
+    padding: .5rem .25rem;
+
+    &:hover { text-decoration: underline; }
+}
+
+.btn-icon {
+    padding: .4rem;
+    border-radius: 50%;
+    line-height: 1;
+}
+
+.btn-group {
+    display: inline-flex;
+
+    .btn {
+        border-radius: 0;
+
+        &:first-child { border-top-left-radius: $tresa-radius-sm; border-bottom-left-radius: $tresa-radius-sm; }
+        &:last-child { border-top-right-radius: $tresa-radius-sm; border-bottom-right-radius: $tresa-radius-sm; }
+    }
+}

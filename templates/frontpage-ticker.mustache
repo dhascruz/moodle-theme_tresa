@@ -1,0 +1,23 @@
+{{!
+    @template theme_tresa/frontpage-ticker
+    Front page rotating highlight banner - a thin strip crossfading between
+    a few short taglines (see lib.php:
+    theme_tresa_get_frontpage_ticker_context()). Same crossfade technique as
+    the hero banner's own multi-image autoscroll (see scripts.mustache).
+
+    Context: ticker.slides [{text, first}].
+
+    Dot-notation ("ticker.slides") - see frontpage-steps.mustache's
+    docblock for why (same partial-sharing-the-parent's-whole-context
+    reason): a bare, undotted section name would look for a top-level
+    "slides" key, which doesn't exist - only the nested one does. That
+    docblock also explains why no literal double-brace syntax should ever
+    be written in this comment as an illustrative example.
+}}
+<div class="tresa-ticker" data-tresa-ticker>
+    <div class="tresa-ticker__inner">
+        {{#ticker.slides}}
+        <p class="tresa-ticker__slide{{#first}} is-active{{/first}}">{{text}}</p>
+        {{/ticker.slides}}
+    </div>
+</div>

@@ -1,0 +1,38 @@
+// Tresa - default preset.
+//
+// Fully standalone: no @import of Boost/Bootstrap. This is Tresa's own,
+// hand-authored design system (Bootstrap-class-compatible, not the
+// Bootstrap framework itself - see README for why).
+
+@import "tresa/variables";
+@import "tresa/fonts";
+// Font Awesome - copied wholesale from theme/boost/scss/fontawesome(.scss)
+// rather than hand-authored, because this theme opts into
+// $THEME->iconsystem = FONTAWESOME (see config.php) for every core-rendered
+// icon sitewide (action menus, the login password-visibility toggle, etc.),
+// but - being fully standalone, no Boost inheritance - never actually
+// pulled in the font files/CSS needed to render them, so every such icon
+// was invisible (a zero-size glyph in a fallback font). The icon-to-glyph
+// mapping alone is ~5000 lines, not something worth hand-rolling when
+// Boost already ships a correct, versioned copy.
+@import "fontawesome";
+@import "tresa/reset";
+@import "tresa/grid";
+@import "tresa/buttons";
+@import "tresa/forms";
+@import "tresa/nav";
+@import "tresa/sidebar";
+@import "tresa/widgets";
+@import "tresa/components";
+@import "tresa/hero";
+@import "tresa/course-grid";
+@import "tresa/frontpage-sections";
+@import "tresa/footer";
+@import "tresa/calendar";
+@import "tresa/popover";
+@import "tresa/dialogue";
+@import "tresa/filemanager";
+@import "tresa/misc";
+@import "tresa/dashboard";
+@import "tresa/light-mode";
+@import "tresa/landing";

@@ -1,0 +1,450 @@
+// Tresa - page-level layout tweaks (base/general/columns1/login/maintenance,
+// plus the landing page).
+//
+// tresa-navbar is fixed at the top ($tresa-navbar-height), so every layout
+// that renders it needs matching top padding on <body>.
+body.tresa-landing,
+body.tresa-general,
+body.tresa-base {
+    padding-top: $tresa-navbar-height;
+}
+
+body.tresa-landing #tresa-maincontent {
+    // Full-width landing sections (hero/course-grid bleed edge to edge).
+    max-width: none;
+}
+
+.tresa-section {
+    padding: $tresa-section-spacing-sm 1.5rem;
+
+    &--alt {
+        background: $tresa-light;
+    }
+}
+
+.tresa-skip-link {
+    position: absolute;
+    left: -9999px;
+    top: 0;
+    background: #fff;
+    color: $tresa-dark;
+    padding: .5rem 1rem;
+    z-index: 1060;
+
+    &:focus {
+        left: .5rem;
+        top: .5rem;
+    }
+}
+
+// General layout: main content + optional block sidebar.
+//
+// Deliberately fluid (no max-width cap) - this is a "container-fluid", and
+// admin tables/reports/course pages benefit from the full window width on
+// large screens rather than being squeezed into a fixed column with large
+// empty gutters either side.
+.tresa-main {
+    padding-top: 1.5rem;
+    padding-bottom: 3rem;
+    max-width: none;
+}
+
+.tresa-main--bare {
+    padding-top: 1.5rem;
+    max-width: none;
+}
+
+.tresa-blocks {
+    padding-top: 1.5rem;
+
+    [data-block] {
+        margin-bottom: 1.5rem;
+        padding: 1rem;
+        background: $tresa-light;
+        border-radius: $tresa-radius-sm;
+    }
+}
+
+// The "base" layout (rarely used - simple, block-free pages) keeps a
+// readable max-width since it's typically prose/plain content, not tables.
+body.tresa-base .tresa-main {
+    max-width: $tresa-content-max;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+// Login layout (reference design: deep green page with a faint multilingual pattern, one white
+// rounded card, uppercase labels, rounded inputs, centred green gradient button).
+//
+// The login page passes "tresa-login" as BOTH a body class and the class of the wrapper <div>, so
+// bare ".tresa-login" would also match <body>. ":not(body)" keeps the flex layout on the wrapper.
+body.tresa-login {
+    background: $tresa-login-bg;
+    font-family: $tresa-font-family;
+}
+
+.tresa-login:not(body) {
+    min-height: calc(100vh - 3.2rem);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 1rem 2rem;
+    background: $tresa-login-bg url("[[pix:theme|login-pattern]]") center / cover no-repeat;
+}
+
+.tresa-login {
+    &__card {
+        width: 100%;
+        max-width: 31.5rem;
+        background: #fff;
+        border-radius: 1.4rem;
+        box-shadow: 0 1.2rem 3rem rgba(0, 0, 0, .28);
+        padding: 2.2rem 2.6rem 1.8rem;
+        font-size: 1rem;
+        color: #1c2b22;
+    }
+
+    &__logo {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 1rem;
+
+        img {
+            max-height: 7.5rem;
+            width: auto;
+            max-width: 70%;
+            object-fit: contain;
+        }
+    }
+
+    &__welcome {
+        text-align: center;
+        font-family: $tresa-font-family-display;
+        font-size: 1.65rem;
+        font-weight: 800;
+        color: $tresa-primary;
+        margin: 0 0 .5rem;
+    }
+
+    &__lead {
+        text-align: center;
+        font-size: .98rem;
+        color: #4c5c52;
+        margin: 0 0 1.8rem;
+    }
+
+    &__notices {
+        margin: 0 0 1.4rem;
+
+        .dbaj-notice {
+            background: #eef6f1;
+            border-left: 4px solid $tresa-login-button-to;
+            border-radius: .7rem;
+            padding: .75rem 1rem;
+            margin-bottom: .7rem;
+            font-size: .92rem;
+            color: #1c2b22;
+
+            p { margin: .3rem 0 0; }
+            p:last-child { margin-bottom: 0; }
+            a { color: $tresa-primary; font-weight: 600; }
+            &.is-support { background: #f4f6f5; border-left-color: #8a9a91; font-size: .88rem; }
+        }
+    }
+
+    &__copy {
+        margin: 1.1rem 0 0;
+        text-align: center;
+        color: #fff;
+        font-size: .95rem;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, .35);
+    }
+
+    &__extra-link {
+        text-align: center;
+        margin: 1rem 0 0;
+        font-size: .9rem;
+    }
+
+    // ---- the form (templates/core/loginform.mustache override) ----
+    .tresa-label {
+        display: block;
+        font-weight: 700;
+        font-size: .8rem;
+        letter-spacing: .03em;
+        text-transform: uppercase;
+        color: #17261d;
+        margin-bottom: .45rem;
+    }
+
+    .form-control,
+    .form-control-lg {
+        height: 3.3rem;
+        border: 1px solid #d4dcd7;
+        border-radius: .85rem;
+        background: #fff;
+        color: #17261d;
+        font-size: 1rem;
+        box-shadow: none;
+
+        &:focus {
+            border-color: $tresa-login-button-to;
+            box-shadow: 0 0 0 .2rem rgba($tresa-login-button-to, .18);
+        }
+    }
+
+    // Password field with the show/hide eye inside the same rounded box.
+    .login-form-password .input-group {
+        display: flex;
+        border: 1px solid #d4dcd7;
+        border-radius: .85rem;
+        background: #fff;
+        flex-wrap: nowrap;
+        align-items: stretch;
+        overflow: hidden;
+
+        &:focus-within {
+            border-color: $tresa-login-button-to;
+            box-shadow: 0 0 0 .2rem rgba($tresa-login-button-to, .18);
+        }
+
+        .form-control {
+            flex: 1 1 auto;
+            min-width: 0;
+            border: 0;
+            box-shadow: none;
+            background: transparent;
+        }
+    }
+
+    .toggle-sensitive-btn {
+        flex: 0 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        background: transparent;
+        border: 0;
+        color: #111;
+        padding: 0 1.1rem;
+        box-shadow: none;
+
+        &:hover,
+        &:focus {
+            background: transparent;
+            color: $tresa-login-button-to;
+        }
+    }
+
+    .tresa-loginform__row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+
+    .tresa-loginform__remember {
+        display: inline-flex;
+        align-items: center;
+        gap: .55rem;
+        margin: 0;
+        font-size: .95rem;
+        color: #2b3a31;
+        cursor: pointer;
+
+        input {
+            width: 1.15rem;
+            height: 1.15rem;
+            accent-color: $tresa-login-button-to;
+        }
+    }
+
+    .tresa-loginform__forgot {
+        font-size: .88rem;
+        color: #6f7d75;
+        text-decoration: none;
+
+        &:hover { color: $tresa-login-button-to; text-decoration: underline; }
+    }
+
+    .login-form-submit {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 1rem !important;
+
+        .btn {
+            min-width: 11.5rem;
+            height: 3.1rem;
+            border: 0;
+            border-radius: .85rem;
+            background: linear-gradient(90deg, $tresa-login-button-from, $tresa-login-button-to);
+            color: #fff;
+            font-family: $tresa-font-family-display;
+            font-weight: 700;
+            font-size: 1rem;
+            letter-spacing: .05em;
+            text-transform: uppercase;
+            box-shadow: 0 .5rem 1.1rem rgba($tresa-login-button-from, .35);
+
+            &:hover,
+            &:focus {
+                filter: brightness(1.12);
+                color: #fff;
+            }
+        }
+    }
+
+    // First-time / signup / guest blocks keep a quiet look below the main form.
+    .login-divider {
+        margin: 1.3rem 0 1rem;
+        border-top: 1px solid #e2e8e4;
+    }
+
+    .login-heading {
+        font-family: $tresa-font-family-display;
+        font-size: 1.05rem;
+        font-weight: 700;
+        color: $tresa-primary;
+    }
+
+    .alert {
+        border-radius: .8rem;
+        font-size: .95rem;
+    }
+
+    // "Cookies must be enabled in your browser" as a centred help line.
+    .loginform > .d-flex {
+        justify-content: center;
+
+        > .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: .6rem;
+            background: none;
+            border: 0;
+            color: #33433a;
+            font-size: .95rem;
+            font-weight: 500;
+            padding: .25rem .5rem;
+            text-transform: none;
+
+            &::before {
+                content: "?";
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                width: 1.45rem;
+                height: 1.45rem;
+                border: 2px solid #33433a;
+                border-radius: 50%;
+                font-weight: 700;
+                font-size: .8rem;
+            }
+
+            &:hover,
+            &:focus {
+                background: none;
+                color: $tresa-login-button-to;
+
+                &::before { border-color: $tresa-login-button-to; }
+            }
+        }
+    }
+
+    @media (max-width: 575.98px) {
+        &__card { padding: 1.8rem 1.3rem 1.4rem; border-radius: 1.1rem; }
+        &__welcome { font-size: 1.4rem; }
+    }
+}
+
+// The login/privacy/mobile-app strip under the login page matches the green page.
+body.tresa-login .tresa-footer-scripts {
+    background: transparent;
+    color: #b7d3c1;
+    border-top: 0;
+
+    a { color: #e6f4ec; }
+}
+
+// Maintenance layout.
+.tresa-maintenance {
+    max-width: 640px;
+    margin: 10vh auto 0;
+    padding: 0 1.5rem;
+    text-align: center;
+}
+
+// Footer scripts strip (login info + plugin footer hooks). Kept subtle.
+.tresa-footer-scripts {
+    font-size: .8rem;
+    color: $tresa-gray-600;
+    padding: .75rem 1.5rem;
+    border-top: 1px solid $tresa-border-color;
+}
+
+// core/full_header (page heading + breadcrumb + settings menu), rendered by
+// $OUTPUT->full_header() - a base core_renderer method, not Boost-specific.
+#page-header {
+    padding: 1rem 0 1.25rem;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid $tresa-border-color;
+
+    h1 {
+        font-size: 1.5rem;
+        margin-bottom: 0;
+    }
+}
+
+.secondary-navigation {
+    margin-bottom: 1rem;
+}
+
+.tertiary-navigation {
+    margin-bottom: 1rem;
+}
+
+// Scroll-reveal (front page stats/course cards - see scripts.mustache,
+// which toggles "tresa-reveal--visible" via IntersectionObserver as each
+// element scrolls into view). Starts invisible/offset only once JS has
+// actually run ("jsenabled" - Moodle's own body class, added by core's own
+// inline script the moment JS is available) - without that guard, a
+// no-JS visitor would never see this content at all, since nothing would
+// ever add the "--visible" class for them.
+body.jsenabled {
+    .tresa-reveal {
+        opacity: 0;
+        transform: translateY(16px);
+        transition: opacity .5s ease-out, transform .5s ease-out;
+
+        &--visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .tresa-reveal {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+    }
+}
+
+// Empty-state illustrations ("You're not enrolled in any courses", etc).
+// Tresa is standalone, so it does not inherit Boost's size rule; without this
+// the SVG renders at its natural size and fills the page.
+.empty-placeholder-image-lg {
+    height: 5rem;
+    width: auto;
+    max-width: 100%;
+}
+
+// Initials avatars (users without a picture): readable on both the dark green top bar and light pages.
+.userinitials {
+    background: $tresa-secondary;
+    color: #fff;
+    font-weight: 600;
+}

@@ -1,0 +1,25 @@
+{{!
+    @template theme_tresa/frontpage-stats
+    Front page "stats bar" - real site-wide numbers (see lib.php:
+    theme_tresa_get_frontpage_stats_context()), shown between the hero
+    banner and the course grid. Each number counts up from 0 when scrolled
+    into view (see scripts.mustache). Reuses the same .tresa-stat-tile card
+    look already built for the Dashboard's stat tiles (_widgets.scss).
+
+    Context: stats [{value, label, icon}].
+}}
+{{#hasstats}}
+<section class="tresa-stats-section tresa-section">
+    <div class="tresa-stats-grid">
+        {{#stats}}
+        <div class="tresa-stat-tile tresa-reveal">
+            <span class="tresa-stat-tile__icon"><i class="fa {{icon}}" aria-hidden="true"></i></span>
+            <div class="tresa-stat-tile__body">
+                <span class="tresa-stat-tile__value" data-tresa-count-to="{{value}}">0</span>
+                <span class="tresa-stat-tile__label">{{label}}</span>
+            </div>
+        </div>
+        {{/stats}}
+    </div>
+</section>
+{{/hasstats}}

@@ -1,0 +1,11 @@
+{{!
+    @template theme_tresa/footer-scripts
+    Bottom-of-page hooks required by Moodle core: login info, plugin footer
+    hooks, telemetry, and page JS init. Every layout must include this once,
+    right before </body>.
+}}
+<div class="tresa-footer-scripts d-print-none">
+    {{{ output.standard_footer_html }}}
+</div>
+{{> theme_tresa/scripts }}
+{{{ output.standard_end_of_body_html }}}

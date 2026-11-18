@@ -1,0 +1,111 @@
+// Tresa - design tokens
+//
+// Declared with !default so admin-configured values injected by
+// theme_tresa_get_pre_scss() (General/Hero settings) take precedence.
+
+$tresa-primary:          #004c21 !default;
+$tresa-primary-dark:     #00381a !default;
+$tresa-secondary:        #05793b !default;
+$tresa-dark:             #1b1b1f !default;
+$tresa-light:            #f8f9fa !default;
+$tresa-gray-200:         #e9ecef !default;
+$tresa-gray-400:         #ced4da !default;
+$tresa-gray-600:         #6c757d !default;
+$tresa-danger:           #dc3545 !default;
+$tresa-success:          #1e9e55 !default;
+$tresa-warning:          #e8590c !default;
+$tresa-info:             #1f7e9a !default;
+$tresa-body-color:       #212529 !default;
+$tresa-body-bg:          #ffffff !default;
+$tresa-link-color:       $tresa-primary !default;
+
+$tresa-hero-text-color:  #ffffff !default;
+$tresa-hero-use-image:   false !default;
+$tresa-grid-columns:     4 !default;
+
+// Body/UI font (Inter) and heading/display font (Montserrat), self-hosted -
+// see _fonts.scss for the @font-face declarations. System-font fallback
+// stacks kept after each so pages still render sensibly before the woff2
+// downloads, or if a font file ever goes missing.
+$tresa-font-family:         "Outfit", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !default;
+$tresa-font-family-display: "Outfit", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !default;
+$tresa-font-size:        .85rem !default;
+$tresa-line-height:      1.5 !default;
+
+$tresa-radius:           .5rem !default;
+$tresa-radius-lg:        .75rem !default;
+$tresa-radius-md:        .4rem !default;
+$tresa-radius-sm:        .3rem !default;
+$tresa-shadow:           0 2px 6px rgba(0, 0, 0, .08) !default;
+$tresa-shadow-lg:        0 .5rem 1.5rem rgba(0, 0, 0, .18) !default;
+$tresa-shadow-hover:     0 10px 24px rgba(0, 0, 0, .14) !default;
+$tresa-transition:       all .15s ease-in-out !default;
+$tresa-border-color:     $tresa-gray-400 !default;
+
+$tresa-navbar-height:    3.5rem !default;
+$tresa-container-max:    1200px !default;
+$tresa-content-max:      1000px !default;
+
+// Left navigation drawer (see _sidebar.scss). Deliberately its own dark
+// navy/orange palette rather than $tresa-primary/$tresa-secondary - it's
+// meant to read as a distinct navigation "rail" against the light body
+// content either side of it, not as another themed content surface.
+$tresa-sidebar-width:      15rem !default;
+$tresa-sidebar-bg:         #0b1220 !default;
+$tresa-sidebar-bg-alt:     #111b30 !default;
+$tresa-sidebar-border:     #22304a !default;
+$tresa-sidebar-text:       #aab6c8 !default;
+$tresa-sidebar-text-muted: #71819b !default;
+$tresa-sidebar-heading:    #ffffff !default;
+$tresa-sidebar-accent:     #34c38f !default;
+$tresa-sidebar-active-bg:  rgba(63, 208, 127, .14) !default;
+
+// Dashboard dark theme (see _dashboard.scss) - scoped to the Dashboard and
+// My courses pages only (body.pagelayout-mydashboard/mycourses), not a
+// sitewide recolour. Its own vivid-orange accent, distinct from the
+// sidebar's softer $tresa-sidebar-accent, to match that reference design.
+$tresa-dash-bg:            #0f172a !default;
+$tresa-dash-card-bg:       #162033 !default;
+$tresa-dash-card-alt-bg:   #1e2b42 !default;
+$tresa-dash-border:        #2a3a54 !default;
+$tresa-dash-text:          #cbd5e1 !default;
+$tresa-dash-text-muted:    #8896ab !default;
+$tresa-dash-heading:       #f8fafc !default;
+$tresa-dash-accent:        #22a06b !default;
+$tresa-dash-accent-dark:   darken(#22a06b, 8%) !default;
+
+$tresa-hero-gradient: linear-gradient(135deg, $tresa-primary 0%, $tresa-primary-dark 100%) !default;
+
+$tresa-section-spacing:  4rem !default;
+$tresa-section-spacing-sm: 2.5rem !default;
+
+// Grid/spacing scale, used by _grid.scss for the mX/pX utility classes.
+$tresa-spacers: (
+    0: 0,
+    1: .25rem,
+    2: .5rem,
+    3: 1rem,
+    4: 1.5rem,
+    5: 3rem
+) !default;
+
+// Responsive breakpoints, used by _grid.scss.
+$tresa-breakpoints: (
+    sm: 576px,
+    md: 768px,
+    lg: 992px,
+    xl: 1200px
+) !default;
+
+// Login page (reference design: deep green page, white card, green gradient button).
+$tresa-login-bg:             #004c21 !default;
+$tresa-login-button-from:    #015426 !default;
+$tresa-login-button-to:      #05793b !default;
+
+// Landing page (reference: deep green sections, translucent green navigation, amber accent, Poppins).
+$tresa-landing-font:       "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !default;
+$tresa-landing-green:      #044e27 !default;
+$tresa-landing-nav:        #067f3f !default;
+$tresa-amber:              #ffa202 !default;
+$tresa-amber-light:        #ffb732 !default;
+$tresa-amber-gradient:     linear-gradient(90deg, #ffb732, #ffa202, #ff9800) !default;

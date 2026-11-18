@@ -1,0 +1,259 @@
+// Tresa - Bootstrap popover/tooltip visuals.
+//
+// Moodle core JS (theme_boost/bootstrap/popover + tooltip, used site-wide for
+// help icons, and by core_calendar/popover for the calendar's narrow-layout
+// event fallback) builds real Popper-positioned .popover/.tooltip elements
+// and inserts them into the DOM - Tresa just needs to give them a visible
+// box and arrow. Positioning (position/transform) is set inline by Popper
+// itself, so this is purely appearance.
+
+$tresa-popover-bg: #fff;
+$tresa-popover-border: $tresa-border-color;
+$tresa-popover-arrow-width: .8rem;
+$tresa-popover-arrow-height: .4rem;
+
+.popover {
+    z-index: 1080;
+    display: block;
+    max-width: 276px;
+    font-size: .85rem;
+    line-height: 1.4;
+    word-wrap: break-word;
+    background-color: $tresa-popover-bg;
+    background-clip: padding-box;
+    border: 1px solid $tresa-popover-border;
+    border-radius: $tresa-radius-md;
+    box-shadow: $tresa-shadow-lg;
+
+    .popover-arrow {
+        display: block;
+        width: $tresa-popover-arrow-width;
+        height: $tresa-popover-arrow-height;
+        position: absolute;
+
+        &::before,
+        &::after {
+            position: absolute;
+            display: block;
+            content: "";
+            border-color: transparent;
+            border-style: solid;
+        }
+    }
+}
+
+.popover-header {
+    padding: .5rem .75rem;
+    margin-bottom: 0;
+    font-size: .9rem;
+    font-weight: 600;
+    color: $tresa-dark;
+    background-color: $tresa-light;
+    border-bottom: 1px solid $tresa-popover-border;
+    border-top-left-radius: calc(#{$tresa-radius-md} - 1px);
+    border-top-right-radius: calc(#{$tresa-radius-md} - 1px);
+
+    &:empty {
+        display: none;
+    }
+}
+
+.popover-body {
+    padding: .6rem .75rem;
+    color: $tresa-body-color;
+}
+
+// Arrow placement, driven by Popper's data-popper-placement attribute.
+.bs-popover-auto,
+.bs-popover-top,
+.bs-popover-end,
+.bs-popover-bottom,
+.bs-popover-start {
+    &[data-popper-placement^="top"],
+    &.bs-popover-top {
+        > .popover-arrow {
+            bottom: calc(-#{$tresa-popover-arrow-height} - 1px);
+
+            &::before,
+            &::after {
+                border-width: $tresa-popover-arrow-height calc(#{$tresa-popover-arrow-width} * .5) 0;
+            }
+
+            &::before {
+                bottom: 0;
+                border-top-color: $tresa-popover-border;
+            }
+
+            &::after {
+                bottom: 1px;
+                border-top-color: $tresa-popover-bg;
+            }
+        }
+    }
+
+    &[data-popper-placement^="right"],
+    &.bs-popover-end {
+        > .popover-arrow {
+            left: calc(-#{$tresa-popover-arrow-height} - 1px);
+            width: $tresa-popover-arrow-height;
+            height: $tresa-popover-arrow-width;
+
+            &::before,
+            &::after {
+                border-width: calc(#{$tresa-popover-arrow-width} * .5) $tresa-popover-arrow-height calc(#{$tresa-popover-arrow-width} * .5) 0;
+            }
+
+            &::before {
+                left: 0;
+                border-right-color: $tresa-popover-border;
+            }
+
+            &::after {
+                left: 1px;
+                border-right-color: $tresa-popover-bg;
+            }
+        }
+    }
+
+    &[data-popper-placement^="bottom"],
+    &.bs-popover-bottom {
+        > .popover-arrow {
+            top: calc(-#{$tresa-popover-arrow-height} - 1px);
+
+            &::before,
+            &::after {
+                border-width: 0 calc(#{$tresa-popover-arrow-width} * .5) $tresa-popover-arrow-height;
+            }
+
+            &::before {
+                top: 0;
+                border-bottom-color: $tresa-popover-border;
+            }
+
+            &::after {
+                top: 1px;
+                border-bottom-color: $tresa-popover-bg;
+            }
+        }
+
+        .popover-header::before {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            display: block;
+            width: $tresa-popover-arrow-width;
+            margin-left: calc(-.5 * #{$tresa-popover-arrow-width});
+            content: "";
+            border-bottom: 1px solid $tresa-light;
+        }
+    }
+
+    &[data-popper-placement^="left"],
+    &.bs-popover-start {
+        > .popover-arrow {
+            right: calc(-#{$tresa-popover-arrow-height} - 1px);
+            width: $tresa-popover-arrow-height;
+            height: $tresa-popover-arrow-width;
+
+            &::before,
+            &::after {
+                border-width: calc(#{$tresa-popover-arrow-width} * .5) 0 calc(#{$tresa-popover-arrow-width} * .5) $tresa-popover-arrow-height;
+            }
+
+            &::before {
+                right: 0;
+                border-left-color: $tresa-popover-border;
+            }
+
+            &::after {
+                right: 1px;
+                border-left-color: $tresa-popover-bg;
+            }
+        }
+    }
+}
+
+// Tooltip (help icons across every form/settings page use these).
+$tresa-tooltip-arrow-width: .6rem;
+$tresa-tooltip-arrow-height: .3rem;
+
+.tooltip {
+    z-index: 1080;
+    display: block;
+    font-size: .8rem;
+    word-wrap: break-word;
+    opacity: 0;
+
+    &.show {
+        opacity: .95;
+    }
+
+    .tooltip-arrow {
+        display: block;
+        width: $tresa-tooltip-arrow-width;
+        height: $tresa-tooltip-arrow-height;
+        position: absolute;
+
+        &::before {
+            position: absolute;
+            content: "";
+            border-color: transparent;
+            border-style: solid;
+        }
+    }
+}
+
+.tooltip-inner {
+    max-width: 220px;
+    padding: .35rem .6rem;
+    color: #fff;
+    text-align: center;
+    background-color: $tresa-dark;
+    border-radius: $tresa-radius-sm;
+}
+
+.bs-tooltip-auto {
+    &[data-popper-placement^="top"] .tooltip-arrow {
+        bottom: calc(-1 * #{$tresa-tooltip-arrow-height});
+
+        &::before {
+            top: -1px;
+            border-width: $tresa-tooltip-arrow-height calc(#{$tresa-tooltip-arrow-width} * .5) 0;
+            border-top-color: $tresa-dark;
+        }
+    }
+
+    &[data-popper-placement^="right"] .tooltip-arrow {
+        left: calc(-1 * #{$tresa-tooltip-arrow-height});
+        width: $tresa-tooltip-arrow-height;
+        height: $tresa-tooltip-arrow-width;
+
+        &::before {
+            right: -1px;
+            border-width: calc(#{$tresa-tooltip-arrow-width} * .5) #{$tresa-tooltip-arrow-height} calc(#{$tresa-tooltip-arrow-width} * .5) 0;
+            border-right-color: $tresa-dark;
+        }
+    }
+
+    &[data-popper-placement^="bottom"] .tooltip-arrow {
+        top: calc(-1 * #{$tresa-tooltip-arrow-height});
+
+        &::before {
+            bottom: -1px;
+            border-width: 0 calc(#{$tresa-tooltip-arrow-width} * .5) #{$tresa-tooltip-arrow-height};
+            border-bottom-color: $tresa-dark;
+        }
+    }
+
+    &[data-popper-placement^="left"] .tooltip-arrow {
+        right: calc(-1 * #{$tresa-tooltip-arrow-height});
+        width: $tresa-tooltip-arrow-height;
+        height: $tresa-tooltip-arrow-width;
+
+        &::before {
+            left: -1px;
+            border-width: calc(#{$tresa-tooltip-arrow-width} * .5) #{$tresa-tooltip-arrow-height} calc(#{$tresa-tooltip-arrow-width} * .5) 0;
+            border-left-color: $tresa-dark;
+        }
+    }
+}

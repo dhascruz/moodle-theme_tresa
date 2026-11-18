@@ -1,0 +1,51 @@
+{{!
+    @template theme_tresa/frontpage
+
+    Tresa custom landing page. Fully standalone - uses Tresa's own head/
+    navbar/footer-scripts partials (theme_tresa/head, theme_tresa/navbar,
+    theme_tresa/footer-scripts), then renders a custom hero banner + course
+    grid + site footer in between.
+
+    Context variables required for this template:
+    * sitename, homeurl, output, bodyattributes - standard Tresa chrome context
+    * primarymoremenu, mobileprimarynav, usermenu - as built by
+      \core\navigation\output\primary::export_for_template()
+    * hero - {title, subtitle, buttontext, buttonurl, hasimage, imageurl}
+    * coursegrid - {title, subtitle, hascourses, courses, viewallurl, viewalltext}
+    * footer - {sitename, about, col1, col2, copyright, backtotoptext}
+}}
+{{> theme_tresa/head }}
+
+<body {{{ bodyattributes }}}>
+{{{ output.standard_top_of_body_html }}}
+
+<a class="tresa-skip-link" href="#tresa-maincontent">{{#str}} skiptocoursegrid, theme_tresa {{/str}}</a>
+
+{{> theme_tresa/landing-topbar }}
+{{> theme_tresa/navbar }}
+
+<main id="tresa-maincontent" tabindex="-1">
+    {{> theme_tresa/hero }}
+    {{> theme_tresa/frontpage-ticker }}
+    {{> theme_tresa/landing-welcome }}
+    {{> theme_tresa/landing-about }}
+    {{> theme_tresa/frontpage-features }}
+    {{> theme_tresa/landing-news }}
+    {{> theme_tresa/frontpage-stats }}
+    {{> theme_tresa/course-grid }}
+    {{> theme_tresa/frontpage-steps }}
+
+    {{! Moodle requires every layout to include the main-content placeholder
+        (this is where front page settings like "include a topic section" or
+        site announcements get injected). Kept low-key, below the custom
+        hero/course grid, so it doesn't compete with them visually. }}
+    <div class="tresa-section container">
+        {{{ output.main_content }}}
+    </div>
+</main>
+
+{{> theme_tresa/footer }}
+
+{{> theme_tresa/footer-scripts }}
+</body>
+</html>

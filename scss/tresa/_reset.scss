@@ -1,0 +1,107 @@
+// Tresa - base reset & typography (hand-authored, not vendored Bootstrap).
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+html {
+    // 18px root: every rem-based size on the site grows by 12.5% (body copy is .85rem = 15px).
+    font-size: 112.5%;
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: $tresa-font-family;
+    font-size: $tresa-font-size;
+    line-height: $tresa-line-height;
+    color: $tresa-body-color;
+    background-color: $tresa-body-bg;
+    -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin-top: 0;
+    margin-bottom: .5rem;
+    font-family: $tresa-font-family-display;
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+p {
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+
+a {
+    color: $tresa-link-color;
+    text-decoration: none;
+
+    &:hover,
+    &:focus {
+        color: darken($tresa-link-color, 12%);
+        text-decoration: underline;
+    }
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    vertical-align: middle;
+}
+
+hr {
+    margin: 1rem 0;
+    border: 0;
+    border-top: 1px solid $tresa-border-color;
+    opacity: .3;
+}
+
+ul, ol {
+    padding-left: 1.5rem;
+}
+
+.visually-hidden,
+.sr-only {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+}
+
+// Same as .visually-hidden above, but reveals the element when it (or a
+// descendant) receives focus. Core's own skip-to-main-content link -
+// injected on every page via $OUTPUT->standard_top_of_body_html(), outside
+// theme control - uses exactly this class expecting exactly this behaviour;
+// without it defined, the link just renders as permanently-visible text at
+// the top of every page instead of only appearing for keyboard users
+// tabbing through the page.
+.visually-hidden-focusable:not(:focus):not(:focus-within) {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+}
+
+.text-truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.rounded {
+    border-radius: $tresa-radius !important;
+}
+
+.shadow {
+    box-shadow: $tresa-shadow !important;
+}

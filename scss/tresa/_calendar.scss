@@ -1,0 +1,184 @@
+// Tresa - calendar (dashboard/side block "mini" view, block-level month
+// view, and the full calendar page). Moodle core renders these with
+// specific classnames (.minicalendar / .calendarmonth / .calendarwrapper,
+// .arrow_link, .day-number-circle, etc.) that Tresa never styled, so the
+// browser fell back to unstyled table/box-model defaults.
+
+.calendarwrapper {
+    position: relative;
+    width: 100%;
+}
+
+// Legacy Bootstrap 3 "visually hide but keep in the DOM" utility classes
+// still emitted by core calendar templates (e.g. the " | " separators
+// between prev/current/next in the mini-calendar caption).
+.hide {
+    display: none !important;
+}
+
+.calendartable,
+.minicalendar,
+.calendarmonth {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+
+    caption {
+        caption-side: top;
+        text-align: center;
+    }
+
+    th,
+    td {
+        padding: .4rem .25rem;
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    thead th {
+        font-size: .75rem;
+        font-weight: 600;
+        color: $tresa-gray-600;
+        text-transform: uppercase;
+        border-bottom: 1px solid $tresa-border-color;
+    }
+
+    td.dayblank {
+        border: none;
+    }
+
+    td.day {
+        border: 1px solid transparent;
+        border-radius: $tresa-radius-sm;
+
+        &.weekend {
+            background: rgba(0, 0, 0, .015);
+        }
+
+        &.today {
+            background: rgba($tresa-primary, .08);
+            border-color: rgba($tresa-primary, .35);
+        }
+
+        &.hasevent .day-number-circle {
+            background: $tresa-primary;
+            color: #fff;
+        }
+    }
+}
+
+// Mini-calendar caption (prev/current/next controls), used by
+// core_calendar/month_mini for blocks like the dashboard calendar.
+.calendar-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: .5rem;
+    font-weight: 600;
+
+    .current a {
+        color: $tresa-dark;
+        text-decoration: none;
+
+        &:hover { text-decoration: underline; }
+    }
+}
+
+// Full calendar-page navigation (core_calendar/month_navigation).
+.controls .calendar-controls {
+    justify-content: space-between;
+
+    h2.current,
+    h4.current {
+        margin: 0;
+        font-size: 1.1rem;
+    }
+}
+
+.arrow_link {
+    display: inline-flex;
+    align-items: center;
+    gap: .25rem;
+    color: $tresa-gray-600;
+    text-decoration: none;
+    padding: .25rem .4rem;
+    border-radius: $tresa-radius-sm;
+
+    &:hover {
+        color: $tresa-dark;
+        background: $tresa-light;
+        text-decoration: none;
+    }
+}
+
+.day-number-circle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 1.6rem;
+    height: 1.6rem;
+    border-radius: 50%;
+    font-size: .85rem;
+}
+
+a.aalink.day {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+
+    &:hover .day-number-circle {
+        background: $tresa-light;
+    }
+}
+
+// Event list shown inside each day cell on the full/detailed month view.
+[data-region="day-content"] {
+    ul {
+        list-style: none;
+        margin: .25rem 0 0;
+        padding: 0;
+        font-size: .75rem;
+        text-align: left;
+    }
+
+    li[data-region="event-item"] a {
+        display: flex;
+        align-items: center;
+        gap: .25rem;
+        padding: .1rem 0;
+        color: $tresa-body-color;
+        text-decoration: none;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+
+        &:hover { text-decoration: underline; }
+    }
+
+    .calendar-circle {
+        flex: 0 0 auto;
+        display: inline-block;
+        width: .5rem;
+        height: .5rem;
+        border-radius: 50%;
+        background: $tresa-primary;
+    }
+}
+
+// Calendar block footer (Full calendar / Import or export calendars).
+.bottom {
+    margin-top: .75rem;
+    padding-top: .5rem;
+    border-top: 1px solid $tresa-border-color;
+    font-size: .8rem;
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+
+    .footer-link a {
+        color: $tresa-primary;
+        text-decoration: none;
+
+        &:hover { text-decoration: underline; }
+    }
+}

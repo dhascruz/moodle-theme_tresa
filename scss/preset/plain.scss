@@ -1,0 +1,13 @@
+// Tresa - plain preset.
+//
+// The base design system (reset/grid/buttons/forms/nav/components) with
+// Tresa's brand colours, but without the landing-page-specific hero/
+// course-grid/footer components. Useful for troubleshooting.
+
+@import "tresa/variables";
+@import "tresa/reset";
+@import "tresa/grid";
+@import "tresa/buttons";
+@import "tresa/forms";
+@import "tresa/nav";
+@import "tresa/components";

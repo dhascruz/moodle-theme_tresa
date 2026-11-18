@@ -1,0 +1,38 @@
+{{!
+    @template theme_tresa/hero
+    Landing page hero banner. Expects a "hero" object in context:
+    {title, subtitle, buttontext, buttonurl, hasimage, imageurl, images,
+     hasmultipleimages, autoscroll, autoscrollinterval}
+}}
+<section class="tresa-hero {{^hero.hasimage}}tresa-hero--gradient-only{{/hero.hasimage}}"
+         {{#hero.hasimage}}style="background-image: url('{{{ hero.imageurl }}}');"{{/hero.hasimage}}
+         {{#hero.hasmultipleimages}}
+         data-tresa-hero-autoscroll="{{#hero.autoscroll}}1{{/hero.autoscroll}}{{^hero.autoscroll}}0{{/hero.autoscroll}}"
+         data-tresa-hero-interval="{{ hero.autoscrollinterval }}"
+         {{/hero.hasmultipleimages}}>
+    {{#hero.hasmultipleimages}}
+    <div class="tresa-hero__slides" aria-hidden="true">
+        {{#hero.images}}
+        <div class="tresa-hero__slide {{#first}}is-active{{/first}}" style="background-image: url('{{{ url }}}');"></div>
+        {{/hero.images}}
+    </div>
+    <button type="button" class="tresa-hero__nav tresa-hero__nav--prev" data-tresa-hero-prev aria-label="{{#str}} heroprevslide, theme_tresa {{/str}}">
+        <i class="icon fa-solid fa-chevron-left fa-fw" aria-hidden="true"></i>
+    </button>
+    <button type="button" class="tresa-hero__nav tresa-hero__nav--next" data-tresa-hero-next aria-label="{{#str}} heronextslide, theme_tresa {{/str}}">
+        <i class="icon fa-solid fa-chevron-right fa-fw" aria-hidden="true"></i>
+    </button>
+    <div class="tresa-hero__dots" data-tresa-hero-dots>
+        {{#hero.images}}
+        <button type="button" class="tresa-hero__dot {{#first}}is-active{{/first}}" aria-label="{{#str}} herogotoslide, theme_tresa, {{index1}} {{/str}}"></button>
+        {{/hero.images}}
+    </div>
+    {{/hero.hasmultipleimages}}
+    <div class="tresa-hero__inner">
+        <h1 class="tresa-hero__title">{{{ hero.title }}}</h1>
+        <p class="tresa-hero__subtitle">{{{ hero.subtitle }}}</p>
+        {{#hero.buttontext}}
+        <a class="tresa-hero__cta" href="{{{ hero.buttonurl }}}">{{{ hero.buttontext }}}</a>
+        {{/hero.buttontext}}
+    </div>
+</section>

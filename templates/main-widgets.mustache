@@ -1,0 +1,114 @@
+{{!
+    @template theme_tresa/main-widgets
+    Decorative "analytics" widgets shown above the real Course overview/
+    Timeline content on the Dashboard/My courses pages (see lib.php:
+    theme_tresa_get_main_widgets_context). Static/demo content, not real
+    Moodle data - see that function's docblock.
+
+    Context: firstname, herostat, stattiles, academicpulsepercent,
+    focusvolumedays, coursebreakdown, sprinthours, learningintensitypercent.
+}}
+<div class="tresa-hero-card">
+    <div class="tresa-hero-card__text">
+        <span class="tresa-hero-card__eyebrow">Cognitive System Overview</span>
+        <p class="tresa-hero-card__body">
+            You've completed {{herostat.modules}} learning modules and logged {{herostat.hours}} active study
+            hours this week. Your performance index is ahead by {{herostat.percent}}%.
+        </p>
+        <button type="button" class="btn btn-primary" disabled>Analyze Performance</button>
+    </div>
+</div>
+
+<div class="tresa-stat-tiles">
+    {{#stattiles}}
+    <div class="tresa-stat-tile">
+        <span class="tresa-stat-tile__icon"><i class="fa {{icon}}" aria-hidden="true"></i></span>
+        <div class="tresa-stat-tile__body">
+            <span class="tresa-stat-tile__label">{{label}}</span>
+            <span class="tresa-stat-tile__value">{{value}}</span>
+            <span class="tresa-stat-tile__meta">{{meta}}</span>
+        </div>
+    </div>
+    {{/stattiles}}
+</div>
+
+<div class="tresa-widget-row">
+    <div class="tresa-widget">
+        <div class="tresa-widget__header"><span class="tresa-widget__title">Academic Pulse</span></div>
+        <div class="tresa-widget__body tresa-widget__body--center">
+            <div class="tresa-widget__gauge tresa-widget__gauge--lg" style="--tresa-gauge-percent: {{academicpulsepercent}};">
+                <span class="tresa-widget__gauge-value">{{academicpulsepercent}}%</span>
+                <span class="tresa-widget__gauge-label">Average</span>
+            </div>
+        </div>
+    </div>
+    <div class="tresa-widget tresa-widget--wide">
+        <div class="tresa-widget__header"><span class="tresa-widget__title">Focus Sprint Volume (14 days)</span></div>
+        <div class="tresa-widget__body">
+            <div class="tresa-widget__chart">
+                {{#focusvolumedays}}
+                <div class="tresa-widget__bar-col">
+                    <div class="tresa-widget__bar" style="height: {{percent}}%;"></div>
+                    <span class="tresa-widget__bar-label">{{label}}</span>
+                </div>
+                {{/focusvolumedays}}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="tresa-widget-row">
+    <div class="tresa-widget">
+        <div class="tresa-widget__header"><span class="tresa-widget__title">Course Breakdown</span></div>
+        <div class="tresa-widget__body tresa-widget__body--center">
+            <div class="tresa-widget__donut" style="background: {{{coursebreakdown.conicgradient}}};">
+                <div class="tresa-widget__donut-hole">
+                    <span class="tresa-widget__donut-value">{{coursebreakdown.total}}</span>
+                    <span class="tresa-widget__donut-label">Total Sprints</span>
+                </div>
+            </div>
+            <ul class="tresa-widget__legend">
+                {{#coursebreakdown.segments}}
+                <li><span class="tresa-widget__legend-dot" style="background: {{color}};"></span>{{count}} {{label}} <em>{{percent}}%</em></li>
+                {{/coursebreakdown.segments}}
+            </ul>
+        </div>
+    </div>
+    <div class="tresa-widget tresa-widget--wide">
+        <div class="tresa-widget__header">
+            <span class="tresa-widget__title">Study Sprint Hours</span>
+            <div class="tresa-widget__toggle" data-region="tresa-period-toggle">
+                <button type="button" class="tresa-widget__toggle-btn active" data-period="weekly">Weekly</button>
+                <button type="button" class="tresa-widget__toggle-btn" data-period="monthly">Monthly</button>
+            </div>
+        </div>
+        <div class="tresa-widget__body">
+            <div class="tresa-widget__chart">
+                {{#sprinthours.days}}
+                <div class="tresa-widget__bar-col">
+                    <div class="tresa-widget__bar" style="height: {{percent}}%;"></div>
+                    <span class="tresa-widget__bar-label">{{label}}</span>
+                </div>
+                {{/sprinthours.days}}
+            </div>
+            <p class="tresa-widget__hint tresa-widget__hint--footer">
+                Total Weekly Effort: <strong>{{sprinthours.totalhours}} hours</strong> logged
+            </p>
+        </div>
+    </div>
+</div>
+
+<div class="tresa-widget">
+    <div class="tresa-widget__header"><span class="tresa-widget__title">Learning Intensity</span></div>
+    <div class="tresa-widget__body tresa-widget__body--center">
+        <div class="tresa-widget__gauge tresa-widget__gauge--lg tresa-widget__gauge--accent" style="--tresa-gauge-percent: {{learningintensitypercent}};">
+            <span class="tresa-widget__gauge-value">{{learningintensitypercent}}%</span>
+            <span class="tresa-widget__gauge-label">Completed</span>
+        </div>
+        <div class="tresa-widget__simulate">
+            <span class="tresa-widget__slider-label">Simulate Intensity Sprint</span>
+            <input type="range" class="tresa-widget__slider" min="0" max="100" value="90">
+            <span class="tresa-widget__hint">Target pace: <strong>Hyper cognitive focus!</strong></span>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,192 @@
+// Tresa - front page "How it works" / "Why learn with us" / rotating
+// highlight banner (theme_tresa/frontpage-steps, frontpage-features,
+// frontpage-ticker - see lib.php). Colours here are the light-mode
+// defaults; _dashboard.scss layers dark-mode overrides on top for
+// body.tresa-landing (the site's actual default, since the front page is
+// dark by default - see that file's own comment for why).
+
+// "How it works" - 3-step process, with a connecting line drawn behind the
+// numbered circles on wider screens (hidden on mobile, where steps stack).
+.tresa-steps {
+    &__header {
+        text-align: center;
+        max-width: 640px;
+        margin: 0 auto 2.5rem;
+    }
+
+    &__title {
+        font-size: clamp(1.5rem, 2.6vw, 2.25rem);
+        font-weight: 700;
+    }
+
+    &__grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 2rem;
+        max-width: 1100px;
+        margin: 0 auto;
+        position: relative;
+
+        @media (max-width: 767.98px) {
+            grid-template-columns: 1fr;
+            gap: 2.5rem;
+        }
+    }
+}
+
+.tresa-step {
+    text-align: center;
+    padding: 0 1rem;
+    position: relative;
+
+    &__number {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 2.75rem;
+        height: 2.75rem;
+        border-radius: 50%;
+        background: $tresa-primary;
+        color: #fff;
+        font-weight: 700;
+        font-size: 1.1rem;
+        margin-bottom: 1rem;
+        position: relative;
+        z-index: 1;
+
+        // Connecting line behind each circle (except the first), spanning
+        // back to the previous one - desktop only, where steps sit in a row.
+        @media (min-width: 768px) {
+            &::before {
+                content: "";
+                position: absolute;
+                top: 50%;
+                right: 100%;
+                width: 2rem;
+                height: 2px;
+                background: $tresa-border-color;
+            }
+        }
+    }
+
+    &:first-child .tresa-step__number::before {
+        display: none;
+    }
+
+    &__icon {
+        display: block;
+        font-size: 1.6rem;
+        color: $tresa-primary;
+        margin-bottom: .6rem;
+    }
+
+    &__title {
+        font-weight: 700;
+        font-size: 1.1rem;
+        margin-bottom: .5rem;
+    }
+
+    &__text {
+        color: $tresa-gray-600;
+        font-size: .9rem;
+        max-width: 24rem;
+        margin: 0 auto;
+    }
+}
+
+// "Why learn with us" - 4 feature highlight cards.
+.tresa-features {
+    &__header {
+        text-align: center;
+        max-width: 640px;
+        margin: 0 auto 2.5rem;
+    }
+
+    &__title {
+        font-size: clamp(1.5rem, 2.6vw, 2.25rem);
+        font-weight: 700;
+    }
+
+    &__grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 1.5rem;
+        max-width: 1200px;
+        margin: 0 auto;
+
+        @media (max-width: 767.98px) {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        @media (max-width: 480px) {
+            grid-template-columns: 1fr;
+        }
+    }
+}
+
+.tresa-feature {
+    text-align: center;
+    padding: 2rem 1.25rem;
+    border-radius: $tresa-radius;
+    border: 1px solid $tresa-border-color;
+    background: #fff;
+    transition: $tresa-transition;
+
+    &:hover {
+        transform: translateY(-4px);
+        box-shadow: $tresa-shadow-hover;
+    }
+
+    &__icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 3.5rem;
+        height: 3.5rem;
+        border-radius: 50%;
+        background: rgba($tresa-primary, .1);
+        color: $tresa-primary;
+        font-size: 1.4rem;
+        margin-bottom: 1rem;
+    }
+
+    &__title {
+        font-weight: 700;
+        margin-bottom: .5rem;
+        font-size: 1.05rem;
+    }
+
+    &__text {
+        color: $tresa-gray-600;
+        font-size: .88rem;
+    }
+}
+
+// Rotating highlight banner - a thin strip crossfading between taglines.
+.tresa-ticker {
+    background: $tresa-primary;
+    color: #fff;
+    text-align: center;
+    padding: .65rem 1rem;
+
+    &__inner {
+        position: relative;
+        max-width: 700px;
+        margin: 0 auto;
+        height: 1.4em;
+    }
+}
+
+.tresa-ticker__slide {
+    position: absolute;
+    inset: 0;
+    margin: 0;
+    opacity: 0;
+    transition: opacity .6s ease;
+    font-size: .9rem;
+    font-weight: 500;
+
+    &.is-active {
+        opacity: 1;
+    }
+}

@@ -1,0 +1,15 @@
+{{!
+    @template theme_tresa/landing-welcome
+    Photo and green card introducing the programme.
+}}
+<section class="tresa-welcome tresa-section">
+    <div class="tresa-welcome__inner">
+        <div class="tresa-welcome__image"{{#welcome.imageurl}} style="background-image: url('{{{ welcome.imageurl }}}');"{{/welcome.imageurl}}></div>
+        <div class="tresa-welcome__card">
+            <h2>{{ welcome.title }}</h2>
+            <p class="tresa-welcome__lead">{{ welcome.subtitle }}</p>
+            <p>{{ welcome.text }}</p>
+            <a class="tresa-btn-amber" href="{{{ welcome.buttonurl }}}">{{ welcome.buttontext }}</a>
+        </div>
+    </div>
+</section>

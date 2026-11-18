@@ -1,0 +1,42 @@
+{{!
+    @template theme_tresa/course-grid
+    Landing page course grid. Expects a "coursegrid" object in context:
+    {title, subtitle, hascourses, courses: [{id, fullname, summary, viewurl, imageurl}], viewallurl, viewalltext}
+}}
+<section class="tresa-courses tresa-section">
+    <div class="tresa-courses__header">
+        <h2 class="tresa-courses__title">{{{ coursegrid.title }}}</h2>
+        {{#coursegrid.subtitle}}
+        <p class="tresa-courses__subtitle">{{{ coursegrid.subtitle }}}</p>
+        {{/coursegrid.subtitle}}
+    </div>
+
+    {{#coursegrid.hascourses}}
+    <div class="tresa-courses__grid">
+        {{#coursegrid.courses}}
+        <a class="tresa-course-card tresa-reveal" href="{{{ viewurl }}}">
+            {{#imageurl}}
+                <img class="tresa-course-card__image" src="{{{ imageurl }}}" alt="" loading="lazy">
+            {{/imageurl}}
+            {{^imageurl}}
+                <div class="tresa-course-card__image tresa-course-card__image--placeholder" aria-hidden="true">
+                    <i class="fa fa-graduation-cap" aria-hidden="true"></i>
+                </div>
+            {{/imageurl}}
+            <div class="tresa-course-card__body">
+                <h3 class="tresa-course-card__title">{{{ fullname }}}</h3>
+                <p class="tresa-course-card__summary">{{{ summary }}}</p>
+                <span class="tresa-course-card__link">{{#str}} viewcourse, theme_tresa {{/str}} &rarr;</span>
+            </div>
+        </a>
+        {{/coursegrid.courses}}
+    </div>
+    <div class="tresa-courses__footer">
+        <a class="btn btn-outline-primary" href="{{{ coursegrid.viewallurl }}}">{{{ coursegrid.viewalltext }}}</a>
+    </div>
+    {{/coursegrid.hascourses}}
+
+    {{^coursegrid.hascourses}}
+    <p class="tresa-courses__empty">{{#str}} nocoursesyet, theme_tresa {{/str}}</p>
+    {{/coursegrid.hascourses}}
+</section>

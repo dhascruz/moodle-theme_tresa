@@ -1,0 +1,533 @@
+// Tresa - dark navy/orange reskin for every signed-in "inner" page (course,
+// admin, reports, category listings, dashboard, my courses - anything using
+// the "general" layout/body.tresa-general, see layout/general.php) plus the
+// public front page (body.tresa-landing, layout/frontpage.php - its own
+// hero/course-grid/footer, restyled separately below). Login keeps its own
+// distinct look (body.tresa-login).
+//
+// "html:not(.tresa-force-light)" is the light/dark toggle switch in the
+// navbar (see navbar.mustache + scripts.mustache): the class is added to
+// <html> - not <body> - by an inline script in head.mustache that runs
+// before <body> even exists, so the light preference applies with no
+// flash-of-dark-then-light on page load. Every rule below is nested under
+// $dash-pages, so this one line is the only place the toggle needs to be
+// wired in.
+$dash-pages: 'html:not(.tresa-force-light) body.tresa-general, html:not(.tresa-force-light) body.tresa-landing';
+
+#{$dash-pages} {
+    background: $tresa-dash-bg;
+    color: $tresa-dash-text;
+
+    // Page title ("Dashboard" / "My courses") and breadcrumb.
+    #page-header {
+        border-bottom-color: $tresa-dash-border;
+
+        h1 {
+            color: $tresa-dash-heading;
+        }
+    }
+
+    .breadcrumb-item {
+        color: $tresa-dash-text-muted;
+
+        a { color: $tresa-dash-text; }
+
+        + .breadcrumb-item::before {
+            color: $tresa-dash-text-muted;
+        }
+    }
+
+    // Top navbar, dark to match the page instead of its usual white.
+    .tresa-navbar {
+        background: $tresa-dash-card-bg;
+        border-bottom-color: $tresa-dash-border;
+
+        .navbar-brand {
+            color: $tresa-dash-heading;
+        }
+
+        .nav-link {
+            color: $tresa-dash-text;
+
+            &:hover, &:focus { color: $tresa-dash-accent; }
+
+            &.active { color: $tresa-dash-accent; }
+        }
+
+        .editmode-switch-form label {
+            color: $tresa-dash-text;
+
+            &.text-primary { color: $tresa-dash-accent; }
+        }
+
+        .tresa-theme-toggle {
+            border-color: $tresa-dash-border;
+            color: $tresa-dash-text;
+
+            &:hover, &:focus {
+                background: $tresa-dash-card-alt-bg;
+                color: $tresa-dash-heading;
+            }
+        }
+    }
+
+    // Dropdown menus (user menu/language menu/more-menu overflow - core/
+    // user_menu, core/moremenu). Structure/positioning already unscoped in
+    // _nav.scss; only the hardcoded white background/dark text needed a
+    // dark-mode colour.
+    .dropdown-menu {
+        background: $tresa-dash-card-bg;
+        border-color: $tresa-dash-border;
+    }
+
+    .dropdown-item {
+        color: $tresa-dash-text;
+
+        &:hover, &:focus {
+            background: $tresa-dash-card-alt-bg;
+            color: $tresa-dash-heading;
+        }
+    }
+
+    .dropdown-divider {
+        border-top-color: $tresa-dash-border;
+    }
+
+    // Blocks (myoverview/timeline/calendar_month/recentlyaccesseditems) and
+    // any other .card-based surface (course mini-cards, etc).
+    .card {
+        background: $tresa-dash-card-bg;
+        border-color: $tresa-dash-border;
+    }
+
+    .card-header,
+    .card-footer {
+        background: $tresa-dash-card-alt-bg;
+        border-color: $tresa-dash-border;
+    }
+
+    .card-title,
+    h2, h3, h4, h5 {
+        color: $tresa-dash-heading;
+    }
+
+    // Generic Bootstrap-style utility/component classes that hardcode a
+    // light background regardless of context (see _grid.scss's ".bg-white"/
+    // ".bg-light" utilities and _components.scss's ".list-group-item") -
+    // used all over core (course category management's category/course
+    // rows, the message drawer's ".message-app.bg-light" wrapper, etc.),
+    // each a stray light patch here without this override.
+    .bg-white,
+    .bg-light {
+        background-color: $tresa-dash-card-bg !important;
+    }
+
+    .list-group-item {
+        background: $tresa-dash-card-bg;
+        border-color: $tresa-dash-border;
+        color: $tresa-dash-text;
+    }
+
+    a:not(.btn) {
+        color: $tresa-dash-accent;
+    }
+
+    // Messages page / message drawer: its section headings ("Starred", "Group", "Private") and
+    // links inherit Moodle's dark primary and vanish on the dark card background.
+    .message-app {
+        color: $tresa-dash-text;
+
+        a, .btn-link, .text-primary, h1, h2, h3, h4, h5, h6, .font-weight-bold {
+            color: $tresa-dash-text !important;
+        }
+
+        .text-muted, .small {
+            color: $tresa-dash-text-muted !important;
+        }
+    }
+
+    // Primary actions ("Create course", "New event") in the vivid dashboard
+    // accent; secondary/outline actions ("Manage courses", sort/filter
+    // controls) as quiet ghost buttons against the dark card background.
+    .btn-primary {
+        background-color: $tresa-dash-accent;
+        border-color: $tresa-dash-accent;
+
+        &:hover, &:focus {
+            background-color: $tresa-dash-accent-dark;
+            border-color: $tresa-dash-accent-dark;
+        }
+    }
+
+    .btn-secondary,
+    .btn-outline-secondary {
+        background: transparent;
+        border-color: $tresa-dash-border;
+        color: $tresa-dash-text;
+
+        &:hover, &:focus {
+            background: $tresa-dash-card-alt-bg;
+            color: $tresa-dash-heading;
+            border-color: $tresa-dash-border;
+        }
+    }
+
+    // Filepicker/filemanager toolbar buttons (Private files, assignment
+    // submission file areas, etc. - see _dialogue.scss, which hardcodes
+    // $tresa-light/$tresa-dark for these since they're not always real
+    // .btn elements). Same ghost treatment as .btn-secondary above.
+    .fp-toolbar a,
+    .fp-btn-add,
+    .fp-btn-download,
+    .fp-btn-delete,
+    .fp-btn-setmain,
+    .fp-btn-zip,
+    .fp-btn-unzip,
+    .fp-btn-mkdir {
+        background: $tresa-dash-card-alt-bg;
+        border-color: $tresa-dash-border;
+        color: $tresa-dash-text;
+
+        &:hover, &:focus {
+            background: $tresa-dash-bg;
+            color: $tresa-dash-heading;
+        }
+    }
+
+    .fp-restrictions {
+        color: $tresa-dash-text-muted;
+    }
+
+    // Filepicker/filemanager file-listing area (see _dialogue.scss, which
+    // hardcodes a white "background: #fff" here since it's normally shown
+    // inside a light-themed modal dialogue) - the biggest remaining light
+    // patch on pages like Private files.
+    .file-picker .fp-content,
+    .filemanager .fp-content {
+        background: $tresa-dash-card-alt-bg;
+        border-color: $tresa-dash-border;
+        color: $tresa-dash-text;
+    }
+
+    .fp-pathbar {
+        color: $tresa-dash-text-muted;
+    }
+
+    .fp-navbar {
+        border-color: $tresa-dash-border;
+    }
+
+    // Individual file/folder items inside .fp-content (see files/renderer.php
+    // fp_js_template_iconfilename()/listfilename() - filenames, not just the
+    // container, default to dark text for a light .fp-content background).
+    .fp-filename {
+        color: $tresa-dash-text;
+    }
+
+    .fp-contextmenu.btn-light {
+        background: $tresa-dash-card-bg;
+        border-color: $tresa-dash-border !important;
+        color: $tresa-dash-text;
+
+        &:hover, &:focus {
+            background: $tresa-dash-bg;
+            color: $tresa-dash-heading;
+        }
+    }
+
+    // Form controls (course search, calendar course selector, etc).
+    .form-control,
+    select {
+        background: $tresa-dash-card-alt-bg;
+        border-color: $tresa-dash-border;
+        color: $tresa-dash-heading;
+
+        &::placeholder {
+            color: $tresa-dash-text-muted;
+        }
+
+        &:focus {
+            border-color: $tresa-dash-accent;
+        }
+    }
+
+    // Calendar mini-month.
+    .calendartable {
+        color: $tresa-dash-text;
+
+        th {
+            color: $tresa-dash-text-muted;
+        }
+
+        td {
+            border-color: $tresa-dash-border;
+        }
+
+        .today {
+            background: rgba($tresa-dash-accent, .18);
+
+            .day-number-circle {
+                background: $tresa-dash-accent;
+                color: #fff;
+            }
+        }
+    }
+
+    .arrow_link {
+        color: $tresa-dash-text;
+
+        &:hover { color: $tresa-dash-accent; }
+    }
+
+    // Empty-state icons/text (timeline "no activities", recently-accessed
+    // placeholders) - core renders these as plain grey; keep them legible
+    // against the dark card instead of near-invisible dark-on-dark.
+    .text-muted,
+    .no-overflow .small {
+        color: $tresa-dash-text-muted !important;
+    }
+
+    // Page footer (theme_tresa/footer): its usual $tresa-dark (a near-black
+    // charcoal, #1b1b1f) sits directly under the dashboard's own navy
+    // ($tresa-dash-bg, #0d1120) with nothing to separate them - two
+    // different almost-black tones butted together read as a colour clash/
+    // seam rather than an intentional dark footer. Matched to the dashboard
+    // palette instead so it reads as one continuous surface.
+    .tresa-footer {
+        background: $tresa-dash-card-alt-bg;
+
+        &__inner {
+            border-bottom-color: $tresa-dash-border;
+        }
+    }
+
+    .tresa-footer-scripts {
+        color: $tresa-dash-text-muted;
+        border-top-color: $tresa-dash-border;
+    }
+
+    // Decorative study widgets + main-column widgets (theme_tresa/
+    // dashboard-widgets, theme_tresa/main-widgets - see lib.php). Structure/
+    // layout for all of these lives in _widgets.scss (unscoped); only colour
+    // is theme-mode-dependent, so only colour is set here.
+    .tresa-widget {
+        background: $tresa-dash-card-bg;
+        border-color: $tresa-dash-border;
+    }
+
+    .tresa-widget__header {
+        background: $tresa-dash-card-alt-bg;
+        border-bottom-color: $tresa-dash-border;
+    }
+
+    .tresa-widget__title {
+        color: $tresa-dash-text-muted;
+    }
+
+    .tresa-widget__timer,
+    .tresa-widget__gauge-value,
+    .tresa-widget__donut-value {
+        color: $tresa-dash-heading;
+    }
+
+    .tresa-widget__hint,
+    .tresa-widget__gauge-label,
+    .tresa-widget__donut-label,
+    .tresa-widget__slider-label,
+    .tresa-widget__bar-label {
+        color: $tresa-dash-text-muted;
+    }
+
+    .tresa-widget__slider {
+        accent-color: $tresa-dash-accent;
+    }
+
+    .tresa-widget__slider-value {
+        color: $tresa-dash-heading;
+    }
+
+    // Circular "index" gauge - a conic-gradient ring with the percentage
+    // painted in the accent colour, rest of the ring muted.
+    .tresa-widget__gauge {
+        background:
+            radial-gradient(closest-side, $tresa-dash-card-bg 72%, transparent 73% 100%),
+            conic-gradient($tresa-dash-accent calc(var(--tresa-gauge-percent) * 1%), $tresa-dash-border 0);
+    }
+
+    .tresa-widget__gauge--accent {
+        background:
+            radial-gradient(closest-side, $tresa-dash-card-bg 72%, transparent 73% 100%),
+            conic-gradient($tresa-dash-accent calc(var(--tresa-gauge-percent) * 1%), $tresa-dash-border 0);
+    }
+
+    .tresa-widget__copilot-input {
+        background: $tresa-dash-card-alt-bg;
+        border-color: $tresa-dash-border;
+        color: $tresa-dash-heading;
+
+        &::placeholder { color: $tresa-dash-text-muted; }
+
+        &:focus {
+            border-color: $tresa-dash-accent;
+            outline: none;
+        }
+    }
+
+    .tresa-widget__bar {
+        background: $tresa-dash-accent;
+    }
+
+    .tresa-hero-card {
+        background: linear-gradient(135deg, $tresa-dash-card-alt-bg 0%, $tresa-dash-bg 100%);
+        border-color: $tresa-dash-border;
+    }
+
+    .tresa-hero-card__eyebrow {
+        color: $tresa-dash-text-muted;
+    }
+
+    .tresa-hero-card__body {
+        color: $tresa-dash-text;
+    }
+
+    .tresa-stat-tile {
+        background: $tresa-dash-card-bg;
+        border-color: $tresa-dash-border;
+    }
+
+    .tresa-stat-tile__icon {
+        background: rgba($tresa-dash-accent, .15);
+        color: $tresa-dash-accent;
+    }
+
+    .tresa-stat-tile__label,
+    .tresa-stat-tile__meta {
+        color: $tresa-dash-text-muted;
+    }
+
+    .tresa-stat-tile__value {
+        color: $tresa-dash-heading;
+    }
+
+    // Donut ("Course breakdown"): same conic-gradient + radial-mask ring
+    // trick as .tresa-widget__gauge, but fed a precomputed multi-colour
+    // gradient (see lib.php: theme_tresa_build_donut_segments) instead of a
+    // single accent percentage.
+    .tresa-widget__donut-hole {
+        background: $tresa-dash-card-bg;
+    }
+
+    .tresa-widget__legend {
+        color: $tresa-dash-text;
+
+        em {
+            color: $tresa-dash-text-muted;
+        }
+    }
+
+    .tresa-widget__toggle {
+        background: $tresa-dash-bg;
+        border-color: $tresa-dash-border;
+    }
+
+    .tresa-widget__toggle-btn {
+        color: $tresa-dash-text-muted;
+
+        &.active {
+            background: $tresa-dash-accent;
+            color: #fff;
+        }
+    }
+
+    .tresa-widget__hint--footer strong,
+    .tresa-widget__simulate .tresa-widget__hint strong {
+        color: $tresa-dash-heading;
+    }
+
+    // Front page only (body.tresa-landing - see _course-grid.scss): the
+    // custom "Explore our courses" grid and core's own "Available courses"
+    // listing below it, both still hardcoding a white card background/dark
+    // text from when the front page was the theme's one deliberately-light
+    // marketing section.
+    .tresa-courses__subtitle,
+    .tresa-courses__empty {
+        color: $tresa-dash-text-muted;
+    }
+
+    .tresa-course-card {
+        background: $tresa-dash-card-bg;
+        box-shadow: none;
+        border: 1px solid $tresa-dash-border;
+
+        &__title {
+            color: $tresa-dash-heading;
+        }
+
+        &__summary {
+            color: $tresa-dash-text-muted;
+        }
+
+        &__link {
+            color: $tresa-dash-accent;
+        }
+    }
+
+    #frontpage-available-course-list {
+        .coursebox {
+            background: $tresa-dash-card-bg;
+            border-color: $tresa-dash-border;
+            box-shadow: none;
+
+            .coursename a {
+                color: $tresa-dash-heading;
+            }
+
+            .summary,
+            .teachers {
+                color: $tresa-dash-text-muted;
+            }
+        }
+    }
+
+    // "How it works" / "Why learn with us" / rotating banner (see
+    // _frontpage-sections.scss, whose own colours are the light-mode
+    // defaults). ".tresa-section--alt" (the "How it works" section's own
+    // alternating-background variant, from _misc.scss) needs its own dark
+    // override here too - it was never used on a dash-scoped page before.
+    .tresa-section--alt {
+        background: $tresa-dash-card-alt-bg;
+    }
+
+    .tresa-step__number {
+        background: $tresa-dash-accent;
+
+        &::before {
+            background: $tresa-dash-border;
+        }
+    }
+
+    .tresa-step__icon {
+        color: $tresa-dash-accent;
+    }
+
+    .tresa-step__text,
+    .tresa-feature__text {
+        color: $tresa-dash-text-muted;
+    }
+
+    .tresa-feature {
+        background: $tresa-dash-card-bg;
+        border-color: $tresa-dash-border;
+    }
+
+    .tresa-feature__icon {
+        background: rgba($tresa-dash-accent, .15);
+        color: $tresa-dash-accent;
+    }
+
+    .tresa-ticker {
+        background: $tresa-dash-card-alt-bg;
+        color: $tresa-dash-heading;
+        border-bottom: 1px solid $tresa-dash-border;
+    }
+}

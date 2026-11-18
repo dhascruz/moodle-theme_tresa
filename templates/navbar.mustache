@@ -1,0 +1,45 @@
+{{!
+    @template theme_tresa/navbar
+    Top navbar. Reuses core's own core/moremenu and core/user_menu partials
+    (not theme-specific) fed by \core\navigation\output\primary.
+
+    Context: sitename, homeurl, output, primarymoremenu, usermenu.
+}}
+<nav class="tresa-navbar navbar navbar-expand-md" aria-label="{{#str}} sitemenubar, admin {{/str}}">
+    <div class="container-fluid">
+        <a href="{{{ homeurl }}}" class="navbar-brand d-flex align-items-center">
+            {{# output.should_display_navbar_logo }}
+                <img src="{{ output.get_compact_logo_url }}" class="tresa-navbar__logo" alt="{{ sitename }}">
+            {{/ output.should_display_navbar_logo }}
+            {{^ output.should_display_navbar_logo }}
+                <img src="{{{ tresalogourl }}}" class="tresa-navbar__logo" alt="{{ sitename }}">
+            {{/ output.should_display_navbar_logo }}
+        </a>
+
+        <button class="navbar-toggler" type="button" data-tresa-toggle="tresa-nav-collapse" aria-label="{{#str}} sidepanel, core {{/str}}">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="tresa-navbar__collapse" id="tresa-nav-collapse">
+            {{#primarymoremenu}}
+                <div class="primary-navigation">
+                    {{> core/moremenu}}
+                </div>
+            {{/primarymoremenu}}
+
+            <div class="tresa-navbar__end">
+                <button type="button" class="tresa-theme-toggle" data-region="tresa-theme-toggle" aria-label="{{#str}} toggledarklight, theme_tresa {{/str}}" title="{{#str}} toggledarklight, theme_tresa {{/str}}">
+                    <i class="fa fa-moon" aria-hidden="true" data-region="tresa-theme-icon"></i>
+                </button>
+                {{{ output.edit_switch }}}
+                {{#showloginnavbar}}
+                    {{#usermenu}}
+                        <div class="d-flex align-items-stretch usermenu-container" data-region="usermenu">
+                            {{> core/user_menu }}
+                        </div>
+                    {{/usermenu}}
+                {{/showloginnavbar}}
+            </div>
+        </div>
+    </div>
+</nav>

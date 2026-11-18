@@ -1,0 +1,19 @@
+{{!
+    @template theme_tresa/landing-about
+    Deep green "about" block.
+}}
+<section class="tresa-about">
+    <div class="tresa-about__inner">
+        <h2 class="tresa-about__title">{{ about.title }}</h2>
+        <div class="tresa-about__grid">
+            <div class="tresa-about__logo">
+                <img src="{{{ tresalogourl }}}" alt="">
+                <span class="tresa-about__name">{{{ sitename }}}</span>
+            </div>
+            <div class="tresa-about__text">
+                <p>{{ about.p1 }}</p>
+                <p>{{ about.p2 }}</p>
+            </div>
+        </div>
+    </div>
+</section>

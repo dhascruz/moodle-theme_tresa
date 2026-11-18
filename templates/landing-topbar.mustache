@@ -1,0 +1,12 @@
+{{!
+    @template theme_tresa/landing-topbar
+    Amber quick-links bar above the navigation on the landing page.
+}}
+<div class="tresa-landing-topbar">
+    <ul class="tresa-landing-topbar__links">
+        {{#topbar.links}}<li><a href="{{{ url }}}">{{ text }}</a></li>{{/topbar.links}}
+    </ul>
+    {{#topbar.contact}}
+    <div class="tresa-landing-topbar__contact"><i class="fa {{ icon }}" aria-hidden="true"></i><a href="{{{ url }}}">{{ text }}</a></div>
+    {{/topbar.contact}}
+</div>

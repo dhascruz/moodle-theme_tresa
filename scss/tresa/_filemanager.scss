@@ -1,0 +1,242 @@
+// Tresa - filemanager & filepicker widgets (course image, resource file
+// uploads, "Install plugin from ZIP", etc: core_form/element-filemanager and
+// element-filepicker, rendered mostly as raw HTML by core_renderer rather
+// than mustache).
+//
+// Core's own JS toggles a whole state machine of ancestor classes here
+// (.fm-loading/.fm-loaded, .dndsupported/.dndnotsupported, .dndupload-over,
+// .dndupload-ready, .dndupload-inprogress, .fm-noitems/.fm-maxfiles) and
+// expects the THEME to define what each state actually looks like - core
+// ships zero default CSS of its own for any of it. Boost has a few hundred
+// lines doing exactly this (theme/boost/scss/moodle/filemanager.scss);
+// Tresa is intentionally Boost-free (see README) so never inherited it,
+// which is why every one of these states rendered simultaneously/visibly
+// instead of only the one that's actually current:
+//   - both the "drag files here" idle message AND the "drop to upload"
+//     active-drag target showing stacked on top of each other
+//   - a permanent "drag and drop not supported" notice regardless of
+//     whether the browser actually supports it
+//   - the loading spinner never hiding once the widget finished loading
+// This file is a from-scratch, Tresa-styled equivalent of that same
+// contract, not a copy-paste of Boost's rules or values.
+
+.filemanager-loading {
+    display: none;
+}
+
+.jsenabled .filemanager-loading {
+    display: block;
+    margin-top: 2.5rem;
+    text-align: center;
+}
+
+.filemanager.fm-loading .filemanager-toolbar,
+.filemanager.fm-loading .fp-pathbar,
+.filemanager.fm-loading .filemanager-container,
+.filemanager.fm-loaded .filemanager-loading,
+.filemanager.fm-maxfiles .fp-btn-add,
+.filemanager.fm-maxfiles .dndupload-message,
+.filemanager.fm-noitems .fp-btn-download,
+.filemanager.fm-noitems .fp-btn-delete,
+.filemanager .fm-empty-container,
+.filemanager.fm-noitems .filemanager-container .fp-content {
+    display: none;
+}
+
+.filemanager.fm-noitems .fm-empty-container {
+    display: block;
+}
+
+.filemanager .fp-img-downloading {
+    display: none;
+    padding-top: .4rem;
+}
+
+.filemanager .filemanager-updating {
+    display: none;
+    text-align: center;
+}
+
+.filemanager.fm-updating .filemanager-updating {
+    display: block;
+    margin-top: 2.25rem;
+}
+
+.filemanager.fm-updating .fm-content-wrapper,
+.filemanager.fm-nomkdir .fp-btn-mkdir,
+.fitem.disabled .filemanager .filemanager-toolbar,
+.fitem.disabled .filemanager .fp-pathbar,
+.fitem.disabled .filemanager .fp-restrictions,
+.fitem.disabled .filemanager .fm-content-wrapper {
+    display: none;
+}
+
+.filemanager .fp-restrictions {
+    text-align: right;
+    font-size: .8rem;
+    color: $tresa-gray-600;
+}
+
+.filemanager-toolbar {
+    padding: .35rem;
+    overflow: hidden;
+}
+
+.filemanager .fp-pathbar.empty {
+    display: none;
+}
+
+.filepicker-filelist,
+.filemanager-container {
+    position: relative;
+    min-height: 8.75rem;
+    border: 1px solid $tresa-border-color;
+    border-radius: $tresa-radius-sm;
+}
+
+.filemanager .fp-content {
+    overflow: auto;
+    max-height: 29.5rem;
+    min-height: 9.8rem;
+}
+
+.filemanager-container,
+.filepicker-filelist {
+    overflow: hidden;
+}
+
+.fitem.disabled .filepicker-filelist,
+.fitem.disabled .filemanager-container {
+    background-color: $tresa-light;
+}
+
+.fitem.disabled .fp-btn-choose {
+    color: $tresa-gray-600;
+}
+
+.fitem.disabled .filepicker-filelist .filepicker-filename {
+    display: none;
+}
+
+// Drag and drop states (filemanager and filepicker form elements).
+.filepicker-filelist .filepicker-container,
+.filemanager.fm-noitems .fm-empty-container {
+    display: block;
+    position: absolute;
+    inset: .6rem;
+    border: 2px dashed $tresa-border-color;
+    border-radius: $tresa-radius-sm;
+    padding-top: 4.5rem;
+    text-align: center;
+}
+
+.filepicker-filelist .dndupload-target,
+.filemanager-container .dndupload-target {
+    background: #fff;
+    position: absolute;
+    inset: .6rem;
+    border: 2px dashed $tresa-primary;
+    border-radius: $tresa-radius-sm;
+    padding-top: 4.5rem;
+    text-align: center;
+    box-shadow: 0 0 0 .6rem #fff;
+}
+
+.filepicker-filelist.dndupload-over .dndupload-target,
+.filemanager-container.dndupload-over .dndupload-target {
+    background: rgba($tresa-primary, .06);
+    border-color: $tresa-primary;
+}
+
+.dndupload-message {
+    display: none;
+}
+
+.dndsupported .dndupload-message {
+    display: inline;
+}
+
+.dnduploadnotsupported-message {
+    display: none;
+}
+
+.dndnotsupported .dnduploadnotsupported-message {
+    display: inline;
+}
+
+.dndupload-target {
+    display: none;
+}
+
+.dndsupported .dndupload-ready .dndupload-target {
+    display: block;
+}
+
+.dndupload-uploadinprogress {
+    display: none;
+    text-align: center;
+}
+
+.dndupload-uploading .dndupload-uploadinprogress {
+    display: block;
+}
+
+.dndupload-arrow {
+    width: 100%;
+    height: 2.5rem;
+    position: absolute;
+    top: .3rem;
+    color: $tresa-gray-600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    // Core renders the icon as "fa-3x" (see filemanager_page_generallayout.mustache) -
+    // too large against the shorter box above, so scaled down to match.
+    .fa-3x {
+        font-size: 1.5em;
+    }
+}
+
+.fitem.disabled .filepicker-container,
+.fitem.disabled .fm-empty-container {
+    display: none;
+}
+
+.dndupload-progressbars {
+    padding: .6rem;
+    display: none;
+}
+
+.dndupload-inprogress .dndupload-progressbars {
+    display: block;
+}
+
+.dndupload-inprogress .fp-content {
+    display: none;
+}
+
+.filemanager.fm-noitems .dndupload-inprogress .fm-empty-container {
+    display: none;
+}
+
+.filepicker-filelist.dndupload-inprogress .filepicker-container {
+    display: none;
+}
+
+.filepicker-filelist.dndupload-inprogress a {
+    display: none;
+}
+
+// Select-from-repository dialogue (opened via the "Add..." toolbar button).
+.filemanager.fp-select .fp-select-loading {
+    display: none;
+}
+
+.filemanager.fp-select.loading .fp-select-loading {
+    display: block;
+}
+
+.filemanager.fp-select.loading form {
+    display: none;
+}

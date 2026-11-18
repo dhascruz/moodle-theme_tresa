@@ -1,0 +1,14 @@
+{{!
+    @template theme_tresa/columns1
+    No navbar, no blocks - minimal chrome for popups/embedded/print/secure.
+}}
+{{> theme_tresa/head }}
+<body {{{ bodyattributes }}}>
+{{{ output.standard_top_of_body_html }}}
+<main id="tresa-maincontent" class="container-fluid tresa-main tresa-main--bare" tabindex="-1">
+    {{{ output.main_content }}}
+</main>
+{{> theme_tresa/scripts }}
+{{{ output.standard_end_of_body_html }}}
+</body>
+</html>

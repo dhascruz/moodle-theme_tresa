@@ -1,0 +1,288 @@
+// Tresa - front page stats bar (theme_tresa/frontpage-stats). Reuses the
+// .tresa-stat-tile card itself (see _widgets.scss - same look as the
+// Dashboard's stat tiles), just needs its own 4-column grid wrapper since
+// .tresa-stat-tiles (plural, in _widgets.scss) is fixed at 3 columns for
+// the Dashboard's own 3-stat row.
+.tresa-stats-section {
+    padding-top: $tresa-section-spacing-sm;
+    padding-bottom: $tresa-section-spacing-sm;
+}
+
+.tresa-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1.25rem;
+    max-width: 1200px;
+    margin: 0 auto;
+
+    @media (max-width: 767.98px) {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    @media (max-width: 480px) {
+        grid-template-columns: 1fr;
+    }
+}
+
+// Tresa - course grid
+.tresa-courses {
+    padding: $tresa-section-spacing 1.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+
+    &__header {
+        text-align: center;
+        max-width: 640px;
+        margin: 0 auto 2.5rem;
+    }
+
+    &__title {
+        font-size: clamp(1.5rem, 2.6vw, 2.25rem);
+        font-weight: 700;
+        margin-bottom: .5rem;
+    }
+
+    &__subtitle {
+        color: #6c757d;
+        font-size: 1.05rem;
+    }
+
+    &__grid {
+        display: grid;
+        grid-template-columns: repeat($tresa-grid-columns, minmax(0, 1fr));
+        gap: 1.75rem;
+    }
+
+    &__empty {
+        text-align: center;
+        color: #6c757d;
+        padding: 2rem 0;
+    }
+
+    &__footer {
+        text-align: center;
+        margin-top: 2.5rem;
+    }
+}
+
+.tresa-course-card {
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    border-radius: $tresa-radius;
+    overflow: hidden;
+    box-shadow: $tresa-shadow;
+    transition: $tresa-transition;
+    text-decoration: none;
+    color: inherit;
+    height: 100%;
+
+    &:hover,
+    &:focus {
+        transform: translateY(-4px);
+        box-shadow: $tresa-shadow-hover;
+        color: inherit;
+        text-decoration: none;
+    }
+
+    &__image {
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        object-fit: cover;
+        background: linear-gradient(135deg, $tresa-primary, $tresa-secondary);
+    }
+
+    // Courses with no overview image get this icon centred on the same
+    // gradient, so the empty space reads as an intentional placeholder
+    // rather than a missing/broken image.
+    &__image--placeholder {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        color: rgba(255, 255, 255, .85);
+    }
+
+    &__body {
+        padding: 1.25rem;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+    }
+
+    &__title {
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-bottom: .5rem;
+        color: $tresa-dark;
+    }
+
+    &__summary {
+        font-size: .9rem;
+        color: #6c757d;
+        margin-bottom: 1rem;
+        flex: 1;
+    }
+
+    &__link {
+        font-size: .875rem;
+        font-weight: 600;
+        color: $tresa-primary;
+    }
+}
+
+@media (max-width: 991.98px) {
+    .tresa-courses__grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 575.98px) {
+    .tresa-courses__grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+// "Available courses" - Moodle's own default frontpage course listing
+// (core_course_renderer::frontpage_available_courses(), output via
+// $OUTPUT->main_content() - see layout/frontpage.php). Kept low-key below
+// the custom "Explore our courses" grid above, but still restyled from
+// core's default coursebox markup into a matching card grid instead of a
+// plain unstyled list, for visual consistency with that grid.
+#frontpage-available-course-list {
+    > h2 {
+        font-size: clamp(1.5rem, 2.6vw, 2.25rem);
+        text-align: center;
+        margin-bottom: 2.5rem;
+    }
+
+    .courses.frontpage-course-list-all {
+        display: grid;
+        grid-template-columns: repeat($tresa-grid-columns, minmax(0, 1fr));
+        gap: 1.75rem;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .coursebox {
+        display: flex;
+        flex-direction: column;
+        background: #fff;
+        border: 1px solid $tresa-border-color;
+        border-radius: $tresa-radius;
+        overflow: hidden;
+        box-shadow: $tresa-shadow;
+        transition: $tresa-transition;
+
+        &:hover {
+            transform: translateY(-4px);
+            box-shadow: $tresa-shadow-hover;
+        }
+
+        // core's markup nests the image/summary/teachers two levels deep
+        // (.content > .d-flex > ...), with the title (.info) as an earlier
+        // sibling of .content - "unwrap" those two wrapper levels so all
+        // the real content becomes directly reorderable flex children of
+        // .coursebox itself (image on top, title, then summary/teachers),
+        // without needing to touch core's template.
+        .content {
+            display: contents;
+        }
+
+        // .d-flex is one of tresa's own grid utility classes (_grid.scss)
+        // and is declared `display: flex !important` there, which would
+        // otherwise beat the plain "display: contents" above regardless of
+        // this rule's higher selector specificity - !important vs
+        // !important still falls back to specificity/source order, so
+        // matching it here is what actually wins.
+        .content > .d-flex {
+            display: contents !important;
+        }
+
+        .info {
+            order: 2;
+            padding: 1rem 1.25rem 0;
+        }
+
+        .moreinfo {
+            display: none;
+        }
+
+        .coursename {
+            font-size: 1.1rem;
+            margin: 0;
+
+            a {
+                color: $tresa-dark;
+            }
+        }
+
+        .courseimage {
+            order: 1;
+
+            img {
+                display: block;
+                width: 100%;
+                aspect-ratio: 16 / 9;
+                object-fit: cover;
+            }
+        }
+
+        // Core simply omits ".courseimage" for a course with no overview
+        // image (see course/renderer.php: course_overview_files()) rather
+        // than rendering an empty placeholder itself - ":has()" is the only
+        // way to fill that gap from CSS alone, since there's no element to
+        // target for a course that never got one to begin with. Same
+        // gradient + icon as the front page's own course-card placeholder,
+        // for visual consistency between the two course listings.
+        &:not(:has(.courseimage))::before {
+            content: "\f19d"; // fa-graduation-cap
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            order: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            font-size: 2rem;
+            color: rgba(255, 255, 255, .85);
+            background: linear-gradient(135deg, $tresa-primary, $tresa-secondary);
+        }
+
+        .flex-grow-1 {
+            order: 3;
+            padding: .5rem 1.25rem 1.25rem;
+        }
+
+        .summary {
+            font-size: .9rem;
+            color: #6c757d;
+
+            p:last-child {
+                margin-bottom: 0;
+            }
+        }
+
+        .teachers {
+            list-style: none;
+            padding: 0;
+            margin: .5rem 0 0;
+            font-size: .8rem;
+            color: #6c757d;
+        }
+    }
+}
+
+@media (max-width: 991.98px) {
+    #frontpage-available-course-list .courses.frontpage-course-list-all {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 575.98px) {
+    #frontpage-available-course-list .courses.frontpage-course-list-all {
+        grid-template-columns: 1fr;
+    }
+}

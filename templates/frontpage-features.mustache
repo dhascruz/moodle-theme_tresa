@@ -1,0 +1,30 @@
+{{!
+    @template theme_tresa/frontpage-features
+    Front page "Why learn with us" - 4 static feature highlight cards,
+    each fading in a little after the last (see lib.php:
+    theme_tresa_get_frontpage_features_context()).
+
+    Context: features.title, features.features [{icon, title, text, delay}].
+
+    Dot-notation throughout - see frontpage-steps.mustache's docblock for
+    why (same partial-sharing-the-parent's-whole-context reason, same
+    self-collision this template also had until fixed: the bare, undotted
+    section name here previously resolved to the wrapper hash itself
+    instead of looping the list one level inside it). That docblock also
+    explains why no literal double-brace syntax should ever be written in
+    this comment as an illustrative example.
+}}
+<section class="tresa-features tresa-section">
+    <div class="tresa-features__header">
+        <h2 class="tresa-features__title">{{features.title}}</h2>
+    </div>
+    <div class="tresa-features__grid">
+        {{#features.features}}
+        <div class="tresa-feature tresa-reveal" style="transition-delay: {{delay}}ms;">
+            <span class="tresa-feature__icon"><i class="fa {{icon}}" aria-hidden="true"></i></span>
+            <h3 class="tresa-feature__title">{{title}}</h3>
+            <p class="tresa-feature__text">{{text}}</p>
+        </div>
+        {{/features.features}}
+    </div>
+</section>

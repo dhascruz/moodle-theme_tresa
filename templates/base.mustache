@@ -1,0 +1,23 @@
+{{!
+    @template theme_tresa/base
+    Bare chrome: navbar + content, no blocks. Used for the "base" layout key.
+}}
+{{> theme_tresa/head }}
+<body {{{ bodyattributes }}}>
+{{{ output.standard_top_of_body_html }}}
+{{> theme_tresa/navbar }}
+{{{ output.full_header }}}
+{{#secondarymoremenu}}
+    <div class="secondary-navigation d-print-none">
+        {{> core/moremenu}}
+    </div>
+{{/secondarymoremenu}}
+<main id="tresa-maincontent" class="container-fluid tresa-main" tabindex="-1">
+    {{{ output.course_content_header }}}
+    {{{ output.main_content }}}
+    {{{ output.course_content_footer }}}
+</main>
+{{> theme_tresa/footer }}
+{{> theme_tresa/footer-scripts }}
+</body>
+</html>
