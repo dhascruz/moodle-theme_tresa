@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<libraries>
+  <library>
+    <location>scss/fontawesome</location>
+    <name>Font Awesome Free</name>
+    <description>Icon font SCSS sources (Web Fonts based).</description>
+    <version>6.7.2</version>
+    <license>CC BY 4.0, SIL OFL 1.1, MIT</license>
+    <licenseversion></licenseversion>
+  </library>
+  <library>
+    <location>fonts/Inter.woff2</location>
+    <name>Inter</name>
+    <description>Inter typeface (woff2). Licence text: fonts/OFL-Inter.txt</description>
+    <version>4.0</version>
+    <license>SIL OFL 1.1</license>
+    <licenseversion>1.1</licenseversion>
+  </library>
+  <library>
+    <location>fonts/Montserrat.woff2</location>
+    <name>Montserrat</name>
+    <description>Montserrat typeface (woff2). Licence text: fonts/OFL-Montserrat.txt</description>
+    <version>9.0</version>
+    <license>SIL OFL 1.1</license>
+    <licenseversion>1.1</licenseversion>
+  </library>
+  <library>
+    <location>fonts/Outfit.woff2</location>
+    <name>Outfit</name>
+    <description>Outfit typeface (woff2). Licence text: fonts/OFL-Outfit.txt</description>
+    <version>1.0</version>
+    <license>SIL OFL 1.1</license>
+    <licenseversion>1.1</licenseversion>
+  </library>
+  <library>
+    <location>fonts</location>
+    <name>Poppins</name>
+    <description>Poppins typeface, weights 400/500/600/700 (Poppins-*.woff2). Licence text: fonts/OFL-Poppins.txt</description>
+    <version>4.003</version>
+    <license>SIL OFL 1.1</license>
+    <licenseversion>1.1</licenseversion>
+  </library>
+</libraries>

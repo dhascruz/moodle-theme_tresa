@@ -1,8 +1,6 @@
 // Tresa - front page stats bar (theme_tresa/frontpage-stats). Reuses the
-// .tresa-stat-tile card itself (see _widgets.scss - same look as the
-// Dashboard's stat tiles), just needs its own 4-column grid wrapper since
-// .tresa-stat-tiles (plural, in _widgets.scss) is fixed at 3 columns for
-// the Dashboard's own 3-stat row.
+// .tresa-stat-tile card itself (see _widgets.scss), with its own
+// 4-column grid wrapper.
 .tresa-stats-section {
     padding-top: $tresa-section-spacing-sm;
     padding-bottom: $tresa-section-spacing-sm;

@@ -306,90 +306,6 @@ $dash-pages: 'html:not(.tresa-force-light) body.tresa-general, html:not(.tresa-f
         border-top-color: $tresa-dash-border;
     }
 
-    // Decorative study widgets + main-column widgets (theme_tresa/
-    // dashboard-widgets, theme_tresa/main-widgets - see lib.php). Structure/
-    // layout for all of these lives in _widgets.scss (unscoped); only colour
-    // is theme-mode-dependent, so only colour is set here.
-    .tresa-widget {
-        background: $tresa-dash-card-bg;
-        border-color: $tresa-dash-border;
-    }
-
-    .tresa-widget__header {
-        background: $tresa-dash-card-alt-bg;
-        border-bottom-color: $tresa-dash-border;
-    }
-
-    .tresa-widget__title {
-        color: $tresa-dash-text-muted;
-    }
-
-    .tresa-widget__timer,
-    .tresa-widget__gauge-value,
-    .tresa-widget__donut-value {
-        color: $tresa-dash-heading;
-    }
-
-    .tresa-widget__hint,
-    .tresa-widget__gauge-label,
-    .tresa-widget__donut-label,
-    .tresa-widget__slider-label,
-    .tresa-widget__bar-label {
-        color: $tresa-dash-text-muted;
-    }
-
-    .tresa-widget__slider {
-        accent-color: $tresa-dash-accent;
-    }
-
-    .tresa-widget__slider-value {
-        color: $tresa-dash-heading;
-    }
-
-    // Circular "index" gauge - a conic-gradient ring with the percentage
-    // painted in the accent colour, rest of the ring muted.
-    .tresa-widget__gauge {
-        background:
-            radial-gradient(closest-side, $tresa-dash-card-bg 72%, transparent 73% 100%),
-            conic-gradient($tresa-dash-accent calc(var(--tresa-gauge-percent) * 1%), $tresa-dash-border 0);
-    }
-
-    .tresa-widget__gauge--accent {
-        background:
-            radial-gradient(closest-side, $tresa-dash-card-bg 72%, transparent 73% 100%),
-            conic-gradient($tresa-dash-accent calc(var(--tresa-gauge-percent) * 1%), $tresa-dash-border 0);
-    }
-
-    .tresa-widget__copilot-input {
-        background: $tresa-dash-card-alt-bg;
-        border-color: $tresa-dash-border;
-        color: $tresa-dash-heading;
-
-        &::placeholder { color: $tresa-dash-text-muted; }
-
-        &:focus {
-            border-color: $tresa-dash-accent;
-            outline: none;
-        }
-    }
-
-    .tresa-widget__bar {
-        background: $tresa-dash-accent;
-    }
-
-    .tresa-hero-card {
-        background: linear-gradient(135deg, $tresa-dash-card-alt-bg 0%, $tresa-dash-bg 100%);
-        border-color: $tresa-dash-border;
-    }
-
-    .tresa-hero-card__eyebrow {
-        color: $tresa-dash-text-muted;
-    }
-
-    .tresa-hero-card__body {
-        color: $tresa-dash-text;
-    }
-
     .tresa-stat-tile {
         background: $tresa-dash-card-bg;
         border-color: $tresa-dash-border;
@@ -406,41 +322,6 @@ $dash-pages: 'html:not(.tresa-force-light) body.tresa-general, html:not(.tresa-f
     }
 
     .tresa-stat-tile__value {
-        color: $tresa-dash-heading;
-    }
-
-    // Donut ("Course breakdown"): same conic-gradient + radial-mask ring
-    // trick as .tresa-widget__gauge, but fed a precomputed multi-colour
-    // gradient (see lib.php: theme_tresa_build_donut_segments) instead of a
-    // single accent percentage.
-    .tresa-widget__donut-hole {
-        background: $tresa-dash-card-bg;
-    }
-
-    .tresa-widget__legend {
-        color: $tresa-dash-text;
-
-        em {
-            color: $tresa-dash-text-muted;
-        }
-    }
-
-    .tresa-widget__toggle {
-        background: $tresa-dash-bg;
-        border-color: $tresa-dash-border;
-    }
-
-    .tresa-widget__toggle-btn {
-        color: $tresa-dash-text-muted;
-
-        &.active {
-            background: $tresa-dash-accent;
-            color: #fff;
-        }
-    }
-
-    .tresa-widget__hint--footer strong,
-    .tresa-widget__simulate .tresa-widget__hint strong {
         color: $tresa-dash-heading;
     }
 

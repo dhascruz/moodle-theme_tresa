@@ -1,4 +1,19 @@
 <?php
+// This file is part of Moodle - http://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
 /**
  * Theme Tresa - library functions (SCSS pipeline + landing page helpers).
  *
@@ -163,118 +178,6 @@ function theme_tresa_get_sidebar_context($page): array {
         'userpictureimage' => $OUTPUT->user_picture($USER, ['size' => 36, 'link' => false]),
         'fullname' => fullname($USER),
         'roletext' => $roletext,
-    ];
-}
-
-/**
- * Builds the decorative "study widgets" shown in the right-hand column of
- * the Dashboard/My courses pages, alongside the real Calendar/Recently
- * accessed blocks: a focus-timer card, a weekly-study-goal card, an "AI
- * study buddy" prompt box, and a study-engagement bar chart.
- *
- * These are deliberately static/demo UI, not real functionality - Moodle has
- * no underlying data for "study goals", "mentor link", "engagement" or an AI
- * chat buddy. The focus timer counts down for real (client-side only,
- * nothing persisted); the rest is fixed placeholder content matching the
- * reference design's look.
- *
- * @return array
- */
-function theme_tresa_get_dashboard_widgets_context(): array {
-    return [
-        'engagementdays' => [
-            ['label' => 'M', 'percent' => 55],
-            ['label' => 'T', 'percent' => 70],
-            ['label' => 'W', 'percent' => 40],
-            ['label' => 'T', 'percent' => 85],
-            ['label' => 'F', 'percent' => 60],
-            ['label' => 'S', 'percent' => 30],
-            ['label' => 'S', 'percent' => 45],
-        ],
-    ];
-}
-
-/**
- * Builds the decorative "analytics" widgets shown above the real Course
- * overview/Timeline content on the Dashboard/My courses pages: a hero
- * summary card, three stat tiles, an "Academic pulse" gauge, a 14-day focus
- * chart, a course-breakdown donut, a weekly/monthly study-hours bar chart,
- * and a "Learning intensity" gauge with a slider.
- *
- * Same caveat as theme_tresa_get_dashboard_widgets_context(): Moodle has no
- * underlying data for "peers", "study/access time", "sprints", "daily
- * packs" or "engagement pulse", so this is fixed placeholder content
- * matching the reference design, not real analytics - it sits alongside the
- * real (and still fully functional) course overview/timeline below it.
- *
- * @param moodle_page $page
- * @return array
- */
-function theme_tresa_get_main_widgets_context($page): array {
-    global $USER;
-
-    return [
-        'firstname' => $USER->firstname,
-        'herostat' => [
-            'modules' => 10,
-            'hours' => '4.8',
-            'percent' => 15,
-        ],
-        'stattiles' => [
-            ['label' => 'Total Peers', 'value' => '7 Learners', 'meta' => 'Sync active', 'icon' => 'fa-users'],
-            ['label' => 'Avg. Study Time', 'value' => '15 Minutes', 'meta' => 'Peak: 10AM - 1PM', 'icon' => 'fa-clock-o'],
-            ['label' => 'Avg. Access Time', 'value' => '4.3 Minutes', 'meta' => 'Highly Engaged', 'icon' => 'fa-hourglass-half'],
-        ],
-        'academicpulsepercent' => 82,
-        'focusvolumedays' => [
-            ['label' => 'Mon', 'percent' => 35], ['label' => 'Tue', 'percent' => 55],
-            ['label' => 'Wed', 'percent' => 40], ['label' => 'Thu', 'percent' => 90],
-            ['label' => 'Fri', 'percent' => 60], ['label' => 'Sat', 'percent' => 20],
-            ['label' => 'Sun', 'percent' => 30],
-        ],
-        'coursebreakdown' => theme_tresa_build_donut_segments(35, [
-            ['label' => 'Courses', 'count' => 10, 'percent' => 29, 'color' => '#3b82f6'],
-            ['label' => 'Daily Packs', 'count' => 13, 'percent' => 37, 'color' => '#22c55e'],
-            ['label' => 'Quizzes', 'count' => 10, 'percent' => 29, 'color' => '#ef4444'],
-            ['label' => 'Assessments', 'count' => 2, 'percent' => 6, 'color' => '#eab308'],
-        ]),
-        'sprinthours' => [
-            'days' => [
-                ['label' => 'Mon', 'percent' => 20], ['label' => 'Tue', 'percent' => 45],
-                ['label' => 'Wed', 'percent' => 90], ['label' => 'Thu', 'percent' => 50],
-                ['label' => 'Fri', 'percent' => 60], ['label' => 'Sat', 'percent' => 35],
-                ['label' => 'Sun', 'percent' => 25],
-            ],
-            'totalhours' => '4.8',
-        ],
-        'learningintensitypercent' => 100,
-    ];
-}
-
-/**
- * Turns a flat list of {label, count, percent, color} segments into cumulative
- * conic-gradient stops (each segment needs its running start/end percentage,
- * not just its own share) plus a ready-to-use CSS conic-gradient() value -
- * logic-less Mustache can't do running sums, so this is precomputed here
- * rather than in the template.
- *
- * @param int $total
- * @param array $segments
- * @return array
- */
-function theme_tresa_build_donut_segments(int $total, array $segments): array {
-    $cumulative = 0;
-    $stops = [];
-    foreach ($segments as $segment) {
-        $start = $cumulative;
-        $cumulative += $segment['percent'];
-        $stops[] = "{$segment['color']} {$start}% {$cumulative}%";
-    }
-
-    return [
-        'total' => $total,
-        'segments' => $segments,
-        'conicgradient' => 'conic-gradient(' . implode(', ', $stops) . ')',
     ];
 }
 
@@ -652,25 +555,24 @@ function theme_tresa_get_course_image_url(int $courseid): ?string {
  * @return array list of stdClass course summary objects ready for the template
  */
 function theme_tresa_get_frontpage_courses(int $limit = 6): array {
-    global $DB;
-
     $theme = theme_config::load('tresa');
     $source = $theme->settings->coursegridsource ?? 'recent';
     $categoryid = (int) ($theme->settings->coursegridcategory ?? 0);
 
-    $params = ['siteid' => SITEID];
-    $sql = "SELECT c.id, c.fullname, c.shortname, c.summary, c.summaryformat, c.category
-              FROM {course} c
-             WHERE c.id <> :siteid AND c.visible = 1";
-
+    // Core's course listing applies category and course visibility rules
+    // (and the viewing user's capabilities) for us.
+    $category = null;
     if ($source === 'category' && $categoryid > 0) {
-        $sql .= " AND c.category = :categoryid";
-        $params['categoryid'] = $categoryid;
+        $category = core_course_category::get($categoryid, IGNORE_MISSING);
     }
-
-    $sql .= " ORDER BY c.timecreated DESC";
-
-    $records = $DB->get_records_sql($sql, $params, 0, max(1, $limit));
+    if (!$category) {
+        $category = core_course_category::top();
+    }
+    $records = $category->get_courses([
+        'recursive' => true,
+        'sort' => ['id' => -1],
+        'limit' => max(1, $limit),
+    ]);
 
     $courses = [];
     foreach ($records as $record) {
@@ -699,11 +601,7 @@ function theme_tresa_get_frontpage_courses(int $limit = 6): array {
  * grid, each animated as a count-up when scrolled into view (see
  * scripts.mustache).
  *
- * Unlike the Dashboard's decorative widgets (see
- * theme_tresa_get_dashboard_widgets_context()), these are real counts from
- * the database, not placeholder content - this is public-facing marketing
- * copy, where a made-up number would be actively misleading rather than
- * just decorative.
+ * These are real counts from the database, not placeholder content.
  *
  * @return array
  */
@@ -844,13 +742,21 @@ function theme_tresa_get_landing_sections_context(array $heroimageurls): array {
                 'body' => format_text($a->body, FORMAT_HTML, ['context' => context_system::instance()])];
         }
     }
+    if (!isloggedin() || isguestuser()) {
+        $welcomeurl = new moodle_url('/login/index.php');
+    } else if (class_exists('\\local_dbajourney\\journey')) {
+        // Optional integration: only link to local_dbajourney when installed.
+        $welcomeurl = new moodle_url('/local/dbajourney/index.php');
+    } else {
+        $welcomeurl = new moodle_url('/my/');
+    }
     return [
         'welcome' => [
             'title' => get_string('landingwelcometitle', 'theme_tresa'),
             'subtitle' => get_string('landingwelcomesub', 'theme_tresa'),
             'text' => get_string('landingwelcometext', 'theme_tresa'),
             'buttontext' => get_string('landingwelcomebutton', 'theme_tresa'),
-            'buttonurl' => (new moodle_url(isloggedin() && !isguestuser() ? '/local/dbajourney/index.php' : '/login/index.php'))->out(false),
+            'buttonurl' => $welcomeurl->out(false),
             'imageurl' => $heroimageurls[1] ?? ($heroimageurls[0] ?? null),
         ],
         'about' => [

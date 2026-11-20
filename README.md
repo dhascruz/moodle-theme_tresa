@@ -86,10 +86,6 @@ So "no Boost" means Tresa can't import the real Bootstrap. Instead:
   `scss/preset/plain.scss` is a secondary preset (selectable in settings)
   with just the design system and Tresa's brand colours, no landing-page
   components.
-- `style/tresa.css` - a native, hand-written plain-CSS mirror of the
-  landing-page components only (hero/course-grid/footer/skip-link), using
-  CSS custom properties. It's a standalone reference/preview copy - Moodle
-  loads styles through the SCSS pipeline above, not this file.
 - `lang/en/theme_tresa.php` - all UI strings.
 
 ## Customising the landing page
@@ -123,3 +119,9 @@ Everything is editable from *Appearance > Themes > Tresa*, no code required:
   Boost dependency, and it's fixable by adding that one method to
   `classes/output/core_renderer.php`.
 # tresa
+
+## Optional integration
+If `local_dbajourney` is installed, Tresa adds journey links/announcements to the landing page and navigation. Without it these are simply not shown (the welcome button falls back to the dashboard).
+
+## Licence
+GNU GPL v3 or later (see `LICENSE`). Bundled third-party fonts/icons are listed in `thirdpartylibs.xml`.

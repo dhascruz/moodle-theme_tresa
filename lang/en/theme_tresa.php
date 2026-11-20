@@ -1,4 +1,19 @@
 <?php
+// This file is part of Moodle - http://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
 /**
  * Theme Tresa - English language strings.
  *
@@ -234,3 +249,4 @@ $string['landingabouttitle'] = 'About the programme';
 $string['landingaboutp1'] = 'Our DBA and PhD programmes bring researchers, supervisors and academic reviewers together in one transparent workflow. Every stage has clear instructions, deadlines and feedback, so you always know what is expected and what happens next.';
 $string['landingaboutp2'] = 'Submit your work, receive structured feedback, meet your supervisor and follow your progress from onboarding to final clearance, while the academic office keeps every decision recorded and every version safe.';
 $string['landingnewstitle'] = 'News & Announcements';
+$string['privacy:metadata'] = 'The Tresa theme does not store any personal data.';

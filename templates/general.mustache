@@ -41,9 +41,6 @@
                 {{#headercontent}}
                     {{> core/activity_header }}
                 {{/headercontent}}
-                {{#mainwidgets}}
-                    {{> theme_tresa/main-widgets }}
-                {{/mainwidgets}}
                 {{{ output.main_content }}}
                 {{{ output.activity_navigation }}}
                 {{{ output.course_content_footer }}}
@@ -51,9 +48,6 @@
         </div>
         {{#hasrightcolumn}}
             <aside class="col-lg-3 tresa-blocks d-print-none" aria-label="{{#str}} blocks, core {{/str}}">
-                {{#dashboardwidgets}}
-                    {{> theme_tresa/dashboard-widgets }}
-                {{/dashboardwidgets}}
                 {{#hasblocks}}
                     {{{ sidepreblocks }}}
                 {{/hasblocks}}
